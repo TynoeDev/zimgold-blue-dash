@@ -8,15 +8,15 @@ interface DealCardProps {
   image: string;
 }
 
-export const DealCard = ({ title, subtitle, description }: DealCardProps) => {
+export const DealCard = ({ title, subtitle, description, image }: DealCardProps) => {
   return (
     <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-card to-card/50 p-6 card-shadow smooth-transition hover:border-primary/50 hover:glow-gold">
       {/* Image Container */}
       <div className="relative mb-4 flex h-48 items-center justify-center overflow-hidden rounded-xl bg-gradient-gold/10">
         <img
-          src="https://images.unsplash.com/photo-1610375461246-83df859d849d?w=200&h=200&fit=crop"
+          src={image}
           alt={subtitle}
-          className="h-32 w-32 object-contain smooth-transition group-hover:scale-110"
+          className="h-40 w-40 object-contain smooth-transition group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
       </div>

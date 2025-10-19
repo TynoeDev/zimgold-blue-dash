@@ -3,6 +3,10 @@ import { Menu, X, TrendingUp, DollarSign, Clock, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DealCard } from "@/components/DealCard";
 import { Sidebar } from "@/components/DashboardSidebar";
+import goldNugget from "@/assets/gold-nugget.png";
+import goldCoins from "@/assets/gold-coins.png";
+import goldMap from "@/assets/gold-map.png";
+import sandCharm from "@/assets/sand-charm.png";
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -13,21 +17,21 @@ const Dashboard = () => {
       title: "1851",
       subtitle: "GOLD NUGGET",
       description: "Premium gold mining opportunity with high returns and secure investment structure.",
-      image: "gold-nugget",
+      image: goldNugget,
     },
     {
       id: 2,
       title: "1792",
       subtitle: "GOLD COINS",
       description: "Historical gold coins collection with verified authenticity and excellent growth potential.",
-      image: "gold-coins",
+      image: goldCoins,
     },
     {
       id: 3,
       title: "1652",
-      subtitle: "GOLD BAR",
-      description: "Pure 24K gold bars from certified refineries with guaranteed buyback options.",
-      image: "gold-bar",
+      subtitle: "GOLD MAP",
+      description: "Ancient treasure map with verified authenticity and excellent discovery potential.",
+      image: goldMap,
     },
   ];
 
@@ -59,7 +63,7 @@ const Dashboard = () => {
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/10 px-4 py-2">
                 <img 
-                  src="https://images.unsplash.com/photo-1610375461246-83df859d849d?w=100&h=100&fit=crop" 
+                  src={sandCharm} 
                   alt="Gold Charm" 
                   className="h-8 w-8 rounded-full object-cover"
                 />
