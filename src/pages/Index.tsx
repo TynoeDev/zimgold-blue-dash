@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Gem, Shield, TrendingUp } from "lucide-react";
+import { Cloud, Mail, Phone } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Index = () => {
@@ -10,125 +9,122 @@ const Index = () => {
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -left-20 top-20 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
-        <div className="absolute -right-20 bottom-20 h-96 w-96 rounded-full bg-purple-500/10 blur-3xl" />
+        <div className="absolute right-0 top-0 h-[600px] w-[600px] rounded-full bg-purple-500/20 blur-3xl" />
+        <div className="absolute bottom-0 left-1/4 h-96 w-96 rounded-full bg-pink-500/10 blur-3xl" />
+      </div>
+
+      {/* Vertical Side Labels */}
+      <div className="absolute left-8 top-1/2 -translate-y-1/2 z-20">
+        <p className="text-xs font-light tracking-[0.3em] text-white/60 [writing-mode:vertical-lr] rotate-180">
+          LOGO MARK
+        </p>
+      </div>
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 z-20">
+        <p className="text-xs font-light tracking-[0.3em] text-white/60 [writing-mode:vertical-lr] rotate-180">
+          TYPEFACE
+        </p>
       </div>
 
       {/* Content */}
       <div className="relative z-10 flex min-h-screen flex-col">
         {/* Header */}
-        <header className="border-b border-white/10 backdrop-blur-sm">
-          <div className="container mx-auto flex h-20 items-center justify-between px-6">
-            <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 backdrop-blur-sm">
-                <Gem className="h-7 w-7 text-primary" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-white">ZIMBABWE GOLD</h1>
-                <p className="text-xs text-white/70">Mining Excellence</p>
-              </div>
+        <header className="py-8">
+          <div className="container mx-auto flex items-center justify-between px-6">
+            <div>
+              <h1 className="text-2xl font-bold tracking-tight text-white">ZIMBABWE<sup className="text-xs">™</sup></h1>
             </div>
-            <Button
-              onClick={() => navigate("/dashboard")}
-              variant="outline"
-              className="border-white/20 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
-            >
-              Sign In
-            </Button>
+            <div>
+              <p className="text-sm text-white/80">Client's Logo Project</p>
+            </div>
           </div>
         </header>
 
-        {/* Hero Section */}
-        <main className="container mx-auto flex flex-1 items-center px-6">
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
-            {/* Left Column */}
-            <div className="flex flex-col justify-center">
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-sm">
-                <div className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-                <span className="text-sm text-white">Next Generation Gold Mining</span>
-              </div>
-
-              <h1 className="mb-6 text-5xl font-bold leading-tight text-white lg:text-6xl">
-                Gold Mining is the{" "}
-                <span className="bg-gradient-gold bg-clip-text text-transparent">Future</span>
-              </h1>
-
-              <p className="mb-8 text-lg leading-relaxed text-white/80">
-                Join Zimbabwe's premier virtual gold mining platform. Secure investments, verified
-                authenticity, and exceptional returns in the world of precious metals.
-              </p>
-
-              <div className="flex flex-wrap gap-4">
-                <Button
-                  onClick={() => navigate("/dashboard")}
-                  size="lg"
-                  className="bg-white text-primary hover:bg-white/90 smooth-transition"
-                >
-                  Start Mining
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-white/20 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
-                >
-                  Learn More
-                </Button>
-              </div>
-
-              {/* Stats */}
-              <div className="mt-12 grid grid-cols-3 gap-6">
-                <div>
-                  <p className="text-3xl font-bold text-white">$125M+</p>
-                  <p className="text-sm text-white/70">Assets Managed</p>
-                </div>
-                <div>
-                  <p className="text-3xl font-bold text-white">12K+</p>
-                  <p className="text-sm text-white/70">Active Investors</p>
-                </div>
-                <div>
-                  <p className="text-3xl font-bold text-white">45%</p>
-                  <p className="text-sm text-white/70">Avg. ROI</p>
-                </div>
+        {/* Main Logo Section */}
+        <main className="flex flex-1 items-center justify-center px-6 py-12">
+          <div className="flex flex-col items-center">
+            {/* Large Cloud Logo with Gold Icon */}
+            <div className="relative mb-16 flex items-center justify-center">
+              {/* Glow Effect */}
+              <div className="absolute inset-0 scale-150 animate-pulse rounded-full bg-gradient-to-r from-cyan-500/30 via-purple-500/30 to-pink-500/30 blur-3xl" />
+              
+              {/* Cloud Shape with Gradient Border */}
+              <div className="relative">
+                {/* Cloud SVG */}
+                <svg width="400" height="300" viewBox="0 0 400 300" className="drop-shadow-2xl">
+                  <defs>
+                    <linearGradient id="cloudGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" style={{ stopColor: '#A855F7', stopOpacity: 1 }} />
+                      <stop offset="50%" style={{ stopColor: '#06B6D4', stopOpacity: 1 }} />
+                      <stop offset="100%" style={{ stopColor: '#06B6D4', stopOpacity: 1 }} />
+                    </linearGradient>
+                  </defs>
+                  
+                  {/* Cloud outline */}
+                  <path
+                    d="M 280 140 C 280 120, 260 100, 240 100 C 235 85, 220 75, 200 75 C 175 75, 155 90, 150 110 C 130 110, 115 125, 115 145 C 115 165, 130 180, 150 180 L 270 180 C 285 180, 297 168, 297 153 C 297 145, 290 140, 280 140 Z"
+                    fill="none"
+                    stroke="url(#cloudGradient)"
+                    strokeWidth="12"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="animate-fade-in"
+                  />
+                  
+                  {/* Inner gold/letter shape */}
+                  <circle cx="200" cy="135" r="65" fill="#1a1a2e" />
+                  <path
+                    d="M 220 105 L 180 145 L 200 145 L 200 165 L 220 165 L 220 145 L 240 145 Z"
+                    fill="#06B6D4"
+                    className="drop-shadow-lg"
+                  />
+                </svg>
               </div>
             </div>
 
-            {/* Right Column - Logo Visual */}
-            <div className="flex items-center justify-center">
-              <div className="relative">
-                {/* Main Cloud Logo */}
-                <div className="relative flex h-96 w-96 items-center justify-center">
-                  <div className="absolute inset-0 animate-pulse rounded-full bg-primary/20 blur-3xl" />
-                  
-                  <div className="relative">
-                    <div className="flex h-64 w-64 items-center justify-center rounded-3xl border border-white/20 bg-white/5 backdrop-blur-sm smooth-transition hover:scale-105">
-                      <img
-                        src="https://images.unsplash.com/photo-1610375461246-83df859d849d?w=200&h=200&fit=crop"
-                        alt="Gold"
-                        className="h-40 w-40 object-contain"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Floating Elements */}
-                  <div className="absolute left-0 top-12 animate-bounce rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
-                    <Shield className="h-6 w-6 text-primary" />
-                  </div>
-                  <div className="absolute right-0 top-12 animate-bounce rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm" style={{ animationDelay: '0.5s' }}>
-                    <TrendingUp className="h-6 w-6 text-primary" />
-                  </div>
-                  <div className="absolute bottom-12 left-12 animate-bounce rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm" style={{ animationDelay: '1s' }}>
-                    <Gem className="h-6 w-6 text-primary" />
-                  </div>
+            {/* Breakdown Cards */}
+            <div className="flex gap-6">
+              {/* Cloud Card */}
+              <div className="group flex h-40 w-44 flex-col items-center justify-center rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md smooth-transition hover:scale-105 hover:border-white/40">
+                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10">
+                  <Cloud className="h-8 w-8 text-white" />
                 </div>
+                <p className="text-sm font-light text-white">Cloud</p>
+              </div>
+
+              {/* Letter Z Card */}
+              <div className="group flex h-40 w-44 flex-col items-center justify-center rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md smooth-transition hover:scale-105 hover:border-white/40">
+                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10">
+                  <span className="text-3xl font-bold text-white">Z</span>
+                </div>
+                <p className="text-sm font-light text-white">Letter Z</p>
               </div>
             </div>
           </div>
         </main>
 
-        {/* Footer */}
-        <footer className="border-t border-white/10 py-6">
-          <div className="container mx-auto px-6 text-center text-sm text-white/60">
-            © 2024 Zimbabwe Gold. All rights reserved.
+        {/* Footer with Contact Info */}
+        <footer className="py-6">
+          <div className="container mx-auto flex items-center justify-between px-6">
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500/20">
+                <Mail className="h-4 w-4 text-cyan-400" />
+              </div>
+              <span className="text-sm text-white/70">info@zimbabwegold.com</span>
+            </div>
+            
+            <button
+              onClick={() => navigate("/dashboard")}
+              className="text-sm text-white/70 smooth-transition hover:text-white"
+            >
+              Enter Dashboard →
+            </button>
+
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-white/70">+263 123 456 789</span>
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-500/20">
+                <Phone className="h-4 w-4 text-green-400" />
+              </div>
+            </div>
           </div>
         </footer>
       </div>
