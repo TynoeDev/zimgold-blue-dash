@@ -31,7 +31,7 @@ const Index = () => {
         <header className="py-8">
           <div className="container mx-auto flex items-center justify-between px-6">
             <div>
-              <h1 className="text-2xl font-bold tracking-tight text-white">ZIMBABWE<sup className="text-xs">™</sup></h1>
+              <h1 className="text-2xl font-bold tracking-tight text-white">GOLD MAFIA<sup className="text-xs">™</sup></h1>
             </div>
             <div>
               <p className="text-sm text-white/80">Client's Logo Project</p>
@@ -91,12 +91,12 @@ const Index = () => {
                 <p className="text-sm font-light text-white">Cloud</p>
               </div>
 
-              {/* Letter Z Card */}
+              {/* Letter M Card */}
               <div className="group flex h-40 w-44 flex-col items-center justify-center rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md smooth-transition hover:scale-105 hover:border-white/40">
                 <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10">
-                  <span className="text-3xl font-bold text-white">Z</span>
+                  <span className="text-3xl font-bold text-white">M</span>
                 </div>
-                <p className="text-sm font-light text-white">Letter Z</p>
+                <p className="text-sm font-light text-white">Letter M</p>
               </div>
             </div>
           </div>
@@ -109,7 +109,7 @@ const Index = () => {
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500/20">
                 <Mail className="h-4 w-4 text-cyan-400" />
               </div>
-              <span className="text-sm text-white/70">info@zimbabwegold.com</span>
+              <span className="text-sm text-white/70">info@goldmafia.com</span>
             </div>
             
             <button
