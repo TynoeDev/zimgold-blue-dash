@@ -270,7 +270,7 @@ const Index = () => {
 
         {/* Footer - Contact Information and Entry CTA */}
         <footer className="mt-8 py-6 sm:mt-12 sm:py-8">
-          <div className="mx-auto flex w-full max-w-[460px] flex-col items-center gap-4 sm:flex-row sm:justify-between sm:gap-0 md:max-w-full md:px-4 sm:gap-6">
+          <div className="mx-auto flex w-full max-w-[460px] flex-col items-center gap-4 sm:flex-row sm:justify-between sm:gap-6 md:max-w-full md:px-4">
             {/* Email Contact Section - inline layout */}
             <div className="flex items-center gap-2 sm:gap-2.5">
               {/* Email icon badge */}

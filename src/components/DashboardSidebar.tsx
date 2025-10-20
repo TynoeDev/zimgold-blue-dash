@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
-export type SidebarTab = "top-deals" | "stock-market" | "emails" | "notifications";
+export type SidebarTab = "discussion-forums" | "networking-spaces" | "sentiment-analysis" | "ai-assistant" | "analytics-dashboards" | "portfolio-management";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -13,22 +13,47 @@ interface SidebarProps {
   onTabChange?: (tab: SidebarTab) => void;
 }
 
-const DEFAULT_TAB: SidebarTab = "top-deals";
+const DEFAULT_TAB: SidebarTab = "discussion-forums";
 
 export const Sidebar = ({ isOpen, onToggle, activeTab, onTabChange }: SidebarProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const navItems: Array<{ key: SidebarTab; icon: LucideIcon; label: string }> = [
-    { key: "top-deals", icon: TrendingUp, label: "Top Deals" },
-    { key: "stock-market", icon: TrendingUp, label: "Stock Market" },
-    { key: "emails", icon: Mail, label: "Emails" },
-    { key: "notifications", icon: Bell, label: "Notifications" },
+  const isCommandRoom = location.pathname.includes("command-room");
+
+  const loungeLabels: Record<SidebarTab, string> = {
+    "discussion-forums": "Discussion Forums",
+    "networking-spaces": "Networking Spaces",
+    "sentiment-analysis": "Sentiment Analysis",
+    "ai-assistant": "AI Assistant",
+    "analytics-dashboards": "Analytics Dashboards",
+    "portfolio-management": "Portfolio Management",
+  };
+
+  const commandLabels: Record<SidebarTab, string> = {
+    "discussion-forums": "Discussion Forums",
+    "networking-spaces": "Networking Spaces",
+    "sentiment-analysis": "Sentiment Analysis",
+    "ai-assistant": "AI Business Assistant",
+    "analytics-dashboards": "Analytics Dashboards",
+    "portfolio-management": "Portfolio Management",
+  };
+
+  const loungeNavItems: Array<{ key: SidebarTab; icon: LucideIcon; label: string }> = [
+    { key: "discussion-forums", icon: TrendingUp, label: loungeLabels["discussion-forums"] },
+    { key: "networking-spaces", icon: Users, label: loungeLabels["networking-spaces"] },
+    { key: "sentiment-analysis", icon: TrendingUp, label: loungeLabels["sentiment-analysis"] },
   ];
 
-  const resolvedTab = activeTab ?? DEFAULT_TAB;
+  const commandNavItems: Array<{ key: SidebarTab; icon: LucideIcon; label: string }> = [
+    { key: "ai-assistant", icon: Gauge, label: commandLabels["ai-assistant"] },
+    { key: "analytics-dashboards", icon: TrendingUp, label: commandLabels["analytics-dashboards"] },
+    { key: "portfolio-management", icon: TrendingUp, label: commandLabels["portfolio-management"] },
+  ];
 
-  const isCommandRoom = location.pathname.includes("command-room");
+  const navItems = isCommandRoom ? commandNavItems : loungeNavItems;
+
+  const resolvedTab = activeTab ?? DEFAULT_TAB;
 
   const activeGradientClasses = isCommandRoom
     ? "bg-gradient-to-r from-cyan-500 via-cyan-500 to-cyan-600 text-black shadow-[0_12px_28px_rgba(0,0,0,0.45)] md:mr-[-16px] md:pr-7"

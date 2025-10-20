@@ -11,7 +11,7 @@ import sandCharm from "@/assets/sand-charm.png";
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState<SidebarTab>("top-deals");
+  const [activeTab, setActiveTab] = useState<SidebarTab>("discussion-forums");
 
   const deals = [
     {
@@ -38,14 +38,16 @@ const Dashboard = () => {
   ];
 
   const tabLabels: Record<SidebarTab, string> = {
-    "top-deals": "Top Deals",
-    "stock-market": "Stock Market",
-    emails: "Emails",
-    notifications: "Notifications",
+    "discussion-forums": "Discussion Forums",
+    "networking-spaces": "Networking Spaces",
+    "sentiment-analysis": "Sentiment Analysis",
+    "ai-assistant": "AI Business Assistant",
+    "analytics-dashboards": "Analytics Dashboards",
+    "portfolio-management": "Portfolio Management",
   };
 
   const renderTabContent = () => {
-    if (activeTab === "top-deals") {
+    if (activeTab === "discussion-forums") {
       return (
         <div className="grid h-[calc(100%-3rem)] grid-cols-3 gap-6">
           {deals.map((deal) => (

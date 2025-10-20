@@ -170,6 +170,51 @@ All colors MUST be HSL.
   }
 }
 
+@keyframes fog-drift-1 {
+  0% {
+    transform: translateX(0) translateY(0);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateX(30px) translateY(-10px);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateX(0) translateY(0);
+    opacity: 0.15;
+  }
+}
+
+@keyframes fog-drift-2 {
+  0% {
+    transform: translateX(0) translateY(0);
+    opacity: 0.18;
+  }
+  50% {
+    transform: translateX(-40px) translateY(-15px);
+    opacity: 0.28;
+  }
+  100% {
+    transform: translateX(0) translateY(0);
+    opacity: 0.18;
+  }
+}
+
+@keyframes fog-drift-3 {
+  0% {
+    transform: translateX(0) translateY(0);
+    opacity: 0.12;
+  }
+  50% {
+    transform: translateX(20px) translateY(-8px);
+    opacity: 0.22;
+  }
+  100% {
+    transform: translateX(0) translateY(0);
+    opacity: 0.12;
+  }
+}
+
 @layer utilities {
   .animate-float-slow {
     animation: float-slow 12s ease-in-out infinite;
@@ -181,5 +226,17 @@ All colors MUST be HSL.
 
   .animate-glow-soft {
     animation: glow-pulse 14s ease-in-out infinite;
+  }
+
+  .animate-fog-drift-1 {
+    animation: fog-drift-1 20s ease-in-out infinite;
+  }
+
+  .animate-fog-drift-2 {
+    animation: fog-drift-2 25s ease-in-out infinite;
+  }
+
+  .animate-fog-drift-3 {
+    animation: fog-drift-3 30s ease-in-out infinite;
   }
 }
