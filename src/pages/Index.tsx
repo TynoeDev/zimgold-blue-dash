@@ -1,8 +1,14 @@
-import { Gauge, Mail, Phone, Users } from "lucide-react";
+import { Gauge, Mail, Users, Wallet } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useSolanaTokenData, useSolanaNetworkData } from "@/hooks/useSolanaData";
 
 const Index = () => {
   const navigate = useNavigate();
+  
+  // Fetch live Solana/Gold Mafia token data (public network information only)
+  // TODO: After token launch, replace 'SOL' with Gold Mafia token mint address
+  const tokenData = useSolanaTokenData('SOL');
+  const networkData = useSolanaNetworkData();
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-radial from-slate-800 via-blue-900 to-slate-950" style={{
@@ -294,7 +300,7 @@ const Index = () => {
             
             {/* Main Entry CTA Button - smaller size */}
             <button
-              onClick={() => navigate("/entry")}
+              onClick={() => navigate("/dashboard")}
               className="group relative overflow-hidden rounded-full border border-purple-300/30 bg-gradient-to-r from-purple-500/20 via-violet-500/20 to-purple-500/20 backdrop-blur-xl px-4 py-1.5 text-center shadow-xl smooth-transition hover:scale-105 hover:border-purple-300/50 hover:from-purple-500/30 hover:via-violet-500/30 hover:to-purple-500/30 sm:px-5 sm:py-2"
               title="Step inside — where verified minds meet"
             >
@@ -306,29 +312,212 @@ const Index = () => {
               </span>
             </button>
 
-            {/* Phone Contact Section - inline layout */}
-            <div className="flex items-center gap-2 sm:gap-2.5">
-              {/* Phone number link - no connector line */}
-              <a
-                href="tel:+263777999555"
+            {/* Solana Wallet Section - inline layout */}
+            <div 
+              className="relative flex items-center gap-2 sm:gap-2.5"
+              onMouseEnter={(e) => {
+                const popup = e.currentTarget.querySelector('#wallet-popup');
+                if (popup instanceof HTMLElement) {
+                  // Clear any existing timeout
+                  const timeoutId = popup.getAttribute('data-timeout-id');
+                  if (timeoutId) {
+                    clearTimeout(parseInt(timeoutId));
+                  }
+                  popup.style.opacity = '1';
+                  popup.style.pointerEvents = 'auto';
+                }
+              }}
+              onMouseLeave={(e) => {
+                const popup = e.currentTarget.querySelector('#wallet-popup');
+                if (popup instanceof HTMLElement) {
+                  // Set 3-second delay before hiding
+                  const timeoutId = setTimeout(() => {
+                    popup.style.opacity = '0';
+                    popup.style.pointerEvents = 'none';
+                  }, 3000);
+                  popup.setAttribute('data-timeout-id', timeoutId.toString());
+                }
+              }}
+            >
+              {/* Solana address link - truncated */}
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText('7xKXtg2CW87d97TXJSDpbD5jBkheTqA7v3LB9mP9qZ');
+                  // Show copied notification
+                  const btn = document.getElementById('wallet-copy-status');
+                  if (btn) {
+                    btn.textContent = '✓ Copied!';
+                    btn.style.color = '#10b981';
+                    setTimeout(() => {
+                      btn.textContent = 'Click to copy';
+                      btn.style.color = '';
+                    }, 2000);
+                  }
+                }}
                 className="text-[0.6rem] font-light tracking-[0.18em] text-white/95 uppercase transition-colors hover:text-white antialiased sm:text-[0.65rem] sm:tracking-[0.2em]"
-                title="Gold Mafia Concierge Line"
+                title="Click to copy Solana address"
               >
-                +263 777 999 555
-              </a>
-              {/* Phone icon badge */}
-              <a
-                href="tel:+263777999555"
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-b from-pink-300/60 via-pink-400/45 to-violet-500/35 backdrop-blur-md ring-1 ring-white/30 hover:ring-white/50 sm:h-9 sm:w-9"
-                style={{ boxShadow: "inset 0 -4px 8px rgba(255,255,255,0.18), 0 10px 20px rgba(244,114,182,0.35)" }}
-                title="Gold Mafia Concierge Line"
+                7xKXt...9mP9qZ
+              </button>
+              
+              {/* Solana icon badge with hover info */}
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-b from-purple-300/60 via-purple-400/45 to-violet-500/35 backdrop-blur-md ring-1 ring-white/30 hover:ring-white/50 sm:h-9 sm:w-9 relative cursor-help"
+                style={{ boxShadow: "inset 0 -4px 8px rgba(255,255,255,0.18), 0 10px 20px rgba(147,51,234,0.35)" }}
+                title="Hover to view wallet details"
               >
-                <Phone className="h-3.5 w-3.5 text-pink-50 sm:h-4 sm:w-4" strokeWidth={2} />
-              </a>
+                <Wallet className="h-3.5 w-3.5 text-purple-50 sm:h-4 sm:w-4" strokeWidth={2} />
+                
+                {/* Desktop hover wallet info popup - No QR Code */}
+                <div 
+                  id="wallet-popup"
+                  className="hidden md:block absolute bottom-full right-0 mb-3 opacity-0 pointer-events-none transition-opacity duration-300 z-50"
+                  style={{ transitionDelay: '0s' }}
+                  onMouseEnter={(e) => {
+                    // Keep popup visible when hovering over it
+                    const timeoutId = e.currentTarget.getAttribute('data-timeout-id');
+                    if (timeoutId) {
+                      clearTimeout(parseInt(timeoutId));
+                      e.currentTarget.removeAttribute('data-timeout-id');
+                    }
+                  }}
+                >
+                  <div className="bg-white rounded-2xl p-5 shadow-2xl border border-purple-200 min-w-[320px]">
+                    <div className="space-y-3">
+                      {/* Header */}
+                      <div className="flex items-center gap-2 pb-2 border-b border-slate-200">
+                        <div className="h-8 w-8 rounded-full bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center">
+                          <Wallet className="h-4 w-4 text-white" strokeWidth={2} />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-xs font-bold text-slate-800">Solana Wallet</p>
+                          <p className="text-[0.6rem] text-slate-500">Official Gold Mafia Address</p>
+                        </div>
+                      </div>
+                      
+                      {/* Token Price - Live Market Data (Public Info) */}
+                      <div className="bg-gradient-to-br from-purple-50 to-violet-50 rounded-lg p-3 border border-purple-100">
+                        <div className="flex items-baseline justify-between mb-1">
+                          <p className="text-[0.55rem] text-purple-600 uppercase tracking-wider font-semibold">
+                            Solana (SOL)
+                            {tokenData.loading && <span className="ml-1 text-slate-400">●</span>}
+                          </p>
+                          <span className={`text-[0.5rem] font-semibold ${tokenData.change24h >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                            {tokenData.change24h >= 0 ? '+' : ''}{tokenData.change24h.toFixed(1)}%
+                          </span>
+                        </div>
+                        <p className="text-lg font-bold text-slate-800 mb-0.5">
+                          ${tokenData.price.toFixed(2)} USD
+                        </p>
+                        <p className="text-[0.65rem] text-slate-600">
+                          Market Cap: {tokenData.marketCap} • Rank #{tokenData.rank}
+                        </p>
+                      </div>
+
+                      {/* Gold Mafia Ecosystem Info */}
+                      <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg p-3 border border-amber-100">
+                        <p className="text-[0.55rem] text-amber-700 uppercase tracking-wider mb-2 font-semibold flex items-center gap-1">
+                          <span>⭐</span> Gold Mafia Network
+                        </p>
+                        <div className="space-y-1.5">
+                          <div className="flex items-center justify-between text-[0.65rem]">
+                            <span className="text-slate-700">Blockchain</span>
+                            <span className="text-purple-600 font-semibold">Solana</span>
+                          </div>
+                          <div className="flex items-center justify-between text-[0.65rem]">
+                            <span className="text-slate-700">Token Standard</span>
+                            <span className="text-slate-800 font-semibold">SPL Token</span>
+                          </div>
+                          <div className="flex items-center justify-between text-[0.65rem]">
+                            <span className="text-slate-700">Status</span>
+                            <span className="text-green-600 font-semibold flex items-center gap-1">
+                              <span className="text-green-500">●</span> Live
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Network Performance - Real Solana Data (Public Info) */}
+                      <div className="bg-slate-50 rounded-lg p-3">
+                        <p className="text-[0.55rem] text-slate-500 uppercase tracking-wider mb-2 font-semibold flex items-center gap-1">
+                          <span>🌐</span> Network Performance
+                          {networkData.loading && <span className="ml-1 text-slate-400 text-[0.5rem]">●</span>}
+                        </p>
+                        <div className="space-y-1.5">
+                          <div className="flex items-center justify-between text-[0.65rem]">
+                            <span className="text-slate-700">Average TPS</span>
+                            <span className="text-cyan-600 font-semibold">
+                              {networkData.avgTPS.toLocaleString()}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between text-[0.65rem]">
+                            <span className="text-slate-700">Peak Capacity</span>
+                            <span className="text-purple-600 font-semibold">
+                              {networkData.peakTPS.toLocaleString()} TPS
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between text-[0.65rem]">
+                            <span className="text-slate-700">Transaction Fee</span>
+                            <span className="text-green-600 font-semibold">
+                              ${networkData.transactionFee.toFixed(5)}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between text-[0.65rem]">
+                            <span className="text-slate-700">Block Time</span>
+                            <span className="text-blue-600 font-semibold">
+                              {networkData.blockTime}s
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Full Address Display */}
+                      <div className="bg-slate-50 rounded-lg p-3">
+                        <p className="text-[0.55rem] text-slate-500 uppercase tracking-wider mb-1">Wallet Address</p>
+                        <p className="text-[0.7rem] font-mono text-slate-800 break-all leading-relaxed">
+                          7xKXtg2CW87d97TXJSDpbD5jBkheTqA7v3LB9mP9qZ
+                        </p>
+                      </div>
+
+                      {/* Copy Button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigator.clipboard.writeText('7xKXtg2CW87d97TXJSDpbD5jBkheTqA7v3LB9mP9qZ');
+                          const btnText = e.currentTarget.querySelector('span');
+                          if (btnText) {
+                            btnText.textContent = '✓ Copied to Clipboard!';
+                            e.currentTarget.classList.add('bg-green-600');
+                            e.currentTarget.classList.remove('bg-purple-600', 'hover:bg-purple-700');
+                            setTimeout(() => {
+                              btnText.textContent = 'Copy Address';
+                              e.currentTarget.classList.remove('bg-green-600');
+                              e.currentTarget.classList.add('bg-purple-600', 'hover:bg-purple-700');
+                            }, 2000);
+                          }
+                        }}
+                        className="w-full px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold rounded-lg transition-colors shadow-md hover:shadow-lg"
+                      >
+                        <span>Copy Address</span>
+                      </button>
+
+                      {/* Status Text */}
+                      <p id="wallet-copy-status" className="text-center text-[0.6rem] text-slate-400">
+                        Click to copy
+                      </p>
+                    </div>
+                  </div>
+                  {/* Arrow pointing down */}
+                  <div className="absolute top-full right-6 w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-white" 
+                    style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))' }}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </footer>
       </div>
+
+
     </div>
   );
 };
