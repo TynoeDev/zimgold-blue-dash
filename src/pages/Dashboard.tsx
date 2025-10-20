@@ -3,6 +3,7 @@ import { Menu, X, TrendingUp, DollarSign, Clock, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DealCard } from "@/components/DealCard";
 import { Sidebar } from "@/components/DashboardSidebar";
+import type { SidebarTab } from "@/components/DashboardSidebar";
 import goldNugget from "@/assets/gold-nugget.png";
 import goldCoins from "@/assets/gold-coins.png";
 import goldMap from "@/assets/gold-map.png";
@@ -10,6 +11,7 @@ import sandCharm from "@/assets/sand-charm.png";
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [activeTab, setActiveTab] = useState<SidebarTab>("top-deals");
 
   const deals = [
     {
@@ -35,9 +37,39 @@ const Dashboard = () => {
     },
   ];
 
+  const tabLabels: Record<SidebarTab, string> = {
+    "top-deals": "Top Deals",
+    "stock-market": "Stock Market",
+    emails: "Emails",
+    notifications: "Notifications",
+  };
+
+  const renderTabContent = () => {
+    if (activeTab === "top-deals") {
+      return (
+        <div className="grid h-[calc(100%-3rem)] grid-cols-3 gap-6">
+          {deals.map((deal) => (
+            <DealCard key={deal.id} {...deal} />
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex h-[calc(100%-3rem)] items-center justify-center rounded-2xl border border-border bg-card/30 text-sm font-semibold uppercase tracking-[0.28em] text-muted-foreground">
+        {tabLabels[activeTab]} dashboard coming soon
+      </div>
+    );
+  };
+
   return (
     <div className="flex h-screen w-full overflow-hidden bg-[#0A0A0A]">
-      <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
+      <Sidebar
+        isOpen={sidebarOpen}
+        onToggle={() => setSidebarOpen(!sidebarOpen)}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+      />
       
       <main className="flex-1 overflow-hidden">
         {/* Header */}
@@ -131,15 +163,11 @@ const Dashboard = () => {
             <div className="flex-1 overflow-hidden">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-                  ● Top Deals
+                  ● {tabLabels[activeTab]}
                 </h2>
               </div>
 
-              <div className="grid h-[calc(100%-3rem)] grid-cols-3 gap-6">
-                {deals.map((deal) => (
-                  <DealCard key={deal.id} {...deal} />
-                ))}
-              </div>
+              {renderTabContent()}
             </div>
           </div>
         </div>

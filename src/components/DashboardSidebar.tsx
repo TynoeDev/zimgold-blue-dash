@@ -1,73 +1,174 @@
-import { Gem, TrendingUp, Mail, Bell, LogOut } from "lucide-react";
+import { Gem, TrendingUp, Mail, Bell, LogOut, Gauge, Users, Home, Menu, X } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { NavLink } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
+
+export type SidebarTab = "top-deals" | "stock-market" | "emails" | "notifications";
 
 interface SidebarProps {
   isOpen: boolean;
   onToggle: () => void;
+  activeTab?: SidebarTab;
+  onTabChange?: (tab: SidebarTab) => void;
 }
 
-export const Sidebar = ({ isOpen }: SidebarProps) => {
-  const navItems = [
-    { icon: TrendingUp, label: "Top Deals", path: "/dashboard", active: true },
-    { icon: TrendingUp, label: "Stock Market", path: "/dashboard" },
-    { icon: Mail, label: "Emails", path: "/dashboard" },
-    { icon: Bell, label: "Notifications", path: "/dashboard" },
+const DEFAULT_TAB: SidebarTab = "top-deals";
+
+export const Sidebar = ({ isOpen, onToggle, activeTab, onTabChange }: SidebarProps) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const navItems: Array<{ key: SidebarTab; icon: LucideIcon; label: string }> = [
+    { key: "top-deals", icon: TrendingUp, label: "Top Deals" },
+    { key: "stock-market", icon: TrendingUp, label: "Stock Market" },
+    { key: "emails", icon: Mail, label: "Emails" },
+    { key: "notifications", icon: Bell, label: "Notifications" },
   ];
+
+  const resolvedTab = activeTab ?? DEFAULT_TAB;
+
+  const isCommandRoom = location.pathname.includes("command-room");
+
+  const activeGradientClasses = isCommandRoom
+    ? "bg-gradient-to-r from-cyan-500 via-cyan-500 to-cyan-600 text-black shadow-[0_12px_28px_rgba(0,0,0,0.45)] md:mr-[-16px] md:pr-7"
+    : "bg-gradient-to-r from-amber-500 via-amber-500 to-amber-600 text-black shadow-[0_12px_28px_rgba(0,0,0,0.4)] md:mr-[-16px] md:pr-7";
+
+  const switchRoute = isCommandRoom ? "/lounge" : "/command-room";
+  const switchTitle = isCommandRoom ? "Switch to Lounge" : "Switch to Command Room";
+  const switchIcon = isCommandRoom ? Users : Gauge;
+
+  const expandedButtonBase =
+    "h-11 min-w-[124px] rounded-2xl border backdrop-blur-md px-4 flex items-center justify-center gap-2 transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.03]";
+  const collapsedButtonBase =
+    "h-11 w-11 rounded-xl border backdrop-blur-md flex items-center justify-center transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.06]";
+  const bottomButtonBase = isOpen ? expandedButtonBase : collapsedButtonBase;
+
+  const bottomButtons = [
+    {
+      key: "switch",
+      icon: switchIcon,
+      title: switchTitle,
+      className: cn(
+        bottomButtonBase,
+        isCommandRoom
+          ? "border-cyan-400/25 bg-cyan-500/12 text-cyan-200 hover:border-cyan-300/40 hover:bg-cyan-500/16 hover:text-cyan-100"
+          : "border-amber-400/25 bg-amber-500/12 text-amber-200 hover:border-amber-300/40 hover:bg-amber-500/16 hover:text-amber-100",
+        "shadow-[0_16px_32px_rgba(0,0,0,0.35)]"
+      ),
+      onClick: () => navigate(switchRoute),
+    },
+    {
+      key: "home",
+      icon: Home,
+      title: "Back to Home",
+      className: cn(
+        bottomButtonBase,
+        "border-purple-400/25 bg-purple-500/12 text-purple-200 hover:border-purple-300/40 hover:bg-purple-500/16 hover:text-purple-100",
+        "shadow-[0_16px_32px_rgba(0,0,0,0.35)]"
+      ),
+      onClick: () => navigate("/"),
+    },
+    {
+      key: "toggle",
+      icon: isOpen ? X : Menu,
+      title: isOpen ? "Collapse Sidebar" : "Expand Sidebar",
+      className: cn(
+        bottomButtonBase,
+        "border-slate-400/25 bg-slate-500/12 text-slate-200 hover:border-slate-300/40 hover:bg-slate-500/16 hover:text-white",
+        "shadow-[0_16px_32px_rgba(0,0,0,0.35)]"
+      ),
+      onClick: onToggle,
+    },
+  ] as const;
 
   return (
     <aside
       className={cn(
-        "flex h-full flex-col border-r border-sidebar-border bg-sidebar smooth-transition",
-        isOpen ? "w-64" : "w-20"
+  "smooth-transition relative z-30 flex shrink-0 flex-col border-b border-white/5 bg-gradient-to-r from-white/[0.08] via-white/[0.03] to-transparent text-[11px] uppercase tracking-[0.14em] shadow-[0_8px_24px_rgba(0,0,0,0.35)] backdrop-blur-xl md:border-b-0 md:border-r",
+  "md:h-full md:flex-col",
+        "w-full md:w-auto",
+        isOpen ? "md:w-[220px]" : "md:w-20"
       )}
+      style={{
+        background: 'linear-gradient(to right, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 40%, rgba(0,0,0,0) 100%)',
+        backgroundColor: 'rgba(10,10,10,0.98)'
+      }}
     >
       {/* Logo */}
-      <div className="flex h-16 items-center border-b border-sidebar-border px-6">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-gold">
-            <Gem className="h-6 w-6 text-sidebar-primary-foreground" />
+      <div className="flex h-14 items-center border-b border-white/5 px-4">
+        <div className="flex items-center gap-2">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 shadow-lg">
+            <Gem className="h-4 w-4 text-black" strokeWidth={2.8} />
           </div>
           {isOpen && (
-            <div>
-              <h1 className="text-sm font-bold text-foreground">TREASURE</h1>
-              <p className="text-xs text-primary">HUNT</p>
+            <div className="leading-none">
+              <h1 className="text-[11px] font-bold tracking-[0.28em] text-white">TREASURE</h1>
+              <p className="text-[9px] font-semibold tracking-[0.32em] text-amber-400">HUNT</p>
             </div>
           )}
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 space-y-2 p-4">
-        {navItems.map((item, index) => (
-          <NavLink
-            key={index}
-            to={item.path}
-            className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-3 smooth-transition",
-              item.active
-                ? "bg-primary text-sidebar-primary-foreground font-semibold"
-                : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-            )}
-          >
-            <item.icon className="h-5 w-5 flex-shrink-0" />
-            {isOpen && <span className="text-sm">{item.label}</span>}
-          </NavLink>
-        ))}
+      <nav className="flex flex-1 items-center gap-1.5 px-3 py-2.5 md:flex-col md:items-stretch md:gap-1.5 md:px-2.5 md:py-4">
+        {navItems.map((item) => {
+          const isActive = resolvedTab === item.key;
+          return (
+            <button
+              key={item.key}
+              type="button"
+              onClick={() => onTabChange?.(item.key)}
+              aria-pressed={isActive}
+              className={cn(
+                "group relative flex h-11 items-center justify-center gap-2.5 rounded-full px-3.5 font-semibold tracking-[0.18em] transition-all duration-200 md:h-10 md:justify-start md:rounded-l-full md:rounded-r-[16px]",
+                isActive
+                  ? activeGradientClasses
+                  : "text-slate-400/90 hover:bg-white/5 hover:text-slate-300 md:rounded-full",
+                isOpen ? "md:px-3.5" : "md:px-2.5",
+                !isOpen && "md:justify-center md:[&_span]:hidden"
+              )}
+            >
+              <item.icon
+                className="h-[15px] w-[15px] flex-shrink-0 transition-transform duration-200 group-hover:scale-105"
+                strokeWidth={isActive ? 2.8 : 2.3}
+              />
+              <span className="text-[9px] font-bold tracking-[0.24em] md:text-[10px] md:tracking-[0.20em]">
+                {item.label}
+              </span>
+            </button>
+          );
+        })}
       </nav>
 
       {/* Footer */}
-      <div className="border-t border-sidebar-border p-4">
+      <div className="border-t border-white/5 px-2.5 pb-3 pt-3">
+        <div className="pointer-events-none flex justify-center pb-3">
+          <div className="pointer-events-auto flex flex-col gap-2">
+            {bottomButtons.map((button) => (
+              <Button
+                key={button.key}
+                type="button"
+                variant="ghost"
+                onClick={button.onClick}
+                title={button.title}
+                className={button.className}
+              >
+                <button.icon className="h-4 w-4" strokeWidth={2} />
+              </Button>
+            ))}
+          </div>
+        </div>
+
         <Button
           variant="ghost"
           className={cn(
-            "w-full justify-start gap-3 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-            !isOpen && "justify-center"
+            "h-auto w-full justify-center gap-2 rounded-full px-2.5 py-2.5 text-[9px] font-bold tracking-[0.22em] text-slate-400/90 transition-colors hover:bg-white/5 hover:text-slate-300",
+            isOpen && "md:justify-start md:px-3.5"
           )}
         >
-          <LogOut className="h-5 w-5" />
-          {isOpen && <span>Alex West</span>}
+          <LogOut className="h-[15px] w-[15px] flex-shrink-0" strokeWidth={2.3} />
+          <span className={cn(!isOpen && "md:hidden")}>Alex West</span>
         </Button>
       </div>
     </aside>
