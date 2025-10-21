@@ -1,6 +1,6 @@
 # Gold Mafia - Business Networking Platform
 
-## Project info
+## Project Info
 - **Project Name**: Gold Mafia
 - **Description**: A sophisticated business networking platform that leverages AI and blockchain technology to connect professionals in a secure and innovative environment.
 - **Target Audience**: Business professionals, entrepreneurs, and organizations seeking to enhance their networking and collaboration efforts.
@@ -9,10 +9,127 @@
   - AI-driven business insights and sentiment analysis
   - Interactive community lounge for discussions and networking
   - Personalized command room for managing business strategies and assets
-- **Technologies Used**: React, TypeScript, Tailwind CSS, Supabase, IPFS, AI integration
+- **Technologies Used**: React 18, TypeScript, Tailwind CSS, Supabase, IPFS/Pinata, Solana
 - **Future Enhancements**: Plans for additional features and integrations based on user feedback and technological advancements.
 
 **URL**: https://lgoldmafia.org
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ and pnpm installed
+- Supabase account ([sign up](https://supabase.com))
+- Pinata account ([sign up](https://pinata.cloud))
+- Solana wallet (Phantom or Solflare recommended)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd zimgold-blue-dash
+   ```
+
+2. **Install dependencies**
+   ```bash
+   pnpm install
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Edit `.env` and add your keys:
+   - `VITE_SUPABASE_URL` - Your Supabase project URL
+   - `VITE_SUPABASE_ANON_KEY` - Your Supabase anon/public key
+   - `VITE_PINATA_JWT` - Your Pinata JWT token
+   - `VITE_PINATA_GATEWAY` - Your Pinata gateway URL
+   - `VITE_SOLANA_NETWORK` - Solana network (devnet/testnet/mainnet-beta)
+
+4. **Set up Supabase database**
+   - Go to your Supabase project dashboard
+   - Navigate to SQL Editor
+   - Copy and paste the contents of `supabase/schema.sql`
+   - Run the script to create all tables, policies, and functions
+
+5. **Start development server**
+   ```bash
+   pnpm dev
+   ```
+
+6. **Open in browser**
+   Navigate to `http://localhost:5173`
+
+---
+
+## 📁 Project Structure
+
+```
+zimgold-blue-dash/
+├── src/
+│   ├── components/          # Reusable UI components
+│   │   ├── DashboardSidebar.tsx
+│   │   ├── DealCard.tsx
+│   │   ├── RightSidebar.tsx
+│   │   └── ui/              # shadcn/ui components
+│   ├── pages/               # Main application pages
+│   │   ├── Dashboard.tsx    # User dashboard
+│   │   ├── Lounge.tsx       # Chat & networking
+│   │   ├── CommandRoom.tsx  # Deal management
+│   │   └── Index.tsx        # Landing page
+│   ├── lib/                 # Core utilities
+│   │   ├── supabase.ts      # Supabase client & helpers
+│   │   ├── pinata.ts        # IPFS/Pinata integration
+│   │   ├── types.ts         # TypeScript types
+│   │   └── utils.ts         # Helper functions
+│   ├── hooks/               # Custom React hooks
+│   ├── assets/              # Static assets
+│   └── index.css            # Global styles (Tailwind + custom)
+├── supabase/
+│   └── schema.sql           # Complete database schema
+├── .env.example             # Environment variables template
+└── package.json
+```
+
+---
+
+## 🗄️ Database Schema
+
+The application uses Supabase (PostgreSQL) with the following main tables:
+
+- **profiles** - User profiles with membership tiers, stats, and wallet info
+- **channels** - Lounge chat channels
+- **messages** - Chat messages with IPFS attachments
+- **deals** - Command Room deals/projects
+- **deal_assignments** - Team member assignments to deals
+- **activity_log** - User activity tracking
+- **achievements** - Gamification system
+
+Full schema with RLS policies available in `supabase/schema.sql`.
+
+---
+
+## 🎨 Design System
+
+### Color Themes
+- **Amber** - Lounge, achievements, warm interactions
+- **Cyan** - Command Room, deals, professional actions
+- **Purple** - NFT features, premium elements
+
+### Visual Effects
+- **Glassmorphism** - Frosted glass cards with backdrop blur
+- **Glows** - Soft colored shadows for depth
+- **Animations** - Gentle floating, smooth transitions, fade-ins
+
+### Responsive Layout
+- Mobile-first design with Tailwind breakpoints
+- 12-column CSS Grid for dashboard layouts
+- Sidebar navigation with collapsible states
+
+---
 
 ## What is this project 
 

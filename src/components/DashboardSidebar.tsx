@@ -22,21 +22,21 @@ export const Sidebar = ({ isOpen, onToggle, activeTab, onTabChange }: SidebarPro
   const isCommandRoom = location.pathname.includes("command-room");
 
   const loungeLabels: Record<SidebarTab, string> = {
-    "discussion-forums": "Discussion Forums",
-    "networking-spaces": "Networking Spaces",
-    "sentiment-analysis": "Sentiment Analysis",
+    "discussion-forums": "Forum",
+    "networking-spaces": "Networking",
+    "sentiment-analysis": "Sentiment",
     "ai-assistant": "AI Assistant",
-    "analytics-dashboards": "Analytics Dashboards",
-    "portfolio-management": "Portfolio Management",
+    "analytics-dashboards": "Analytics",
+    "portfolio-management": "Portfolio",
   };
 
   const commandLabels: Record<SidebarTab, string> = {
-    "discussion-forums": "Discussion Forums",
-    "networking-spaces": "Networking Spaces",
-    "sentiment-analysis": "Sentiment Analysis",
-    "ai-assistant": "AI Business Assistant",
-    "analytics-dashboards": "Analytics Dashboards",
-    "portfolio-management": "Portfolio Management",
+    "discussion-forums": "Forum",
+    "networking-spaces": "Networking",
+    "sentiment-analysis": "Sentiment",
+    "ai-assistant": "AI Assistant",
+    "analytics-dashboards": "Analytics",
+    "portfolio-management": "Portfolio",
   };
 
   const loungeNavItems: Array<{ key: SidebarTab; icon: LucideIcon; label: string }> = [

@@ -1,6 +1,7 @@
 import { Gauge, Mail, Users, Wallet } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useSolanaTokenData, useSolanaNetworkData } from "@/hooks/useSolanaData";
+import goldMafiaLogo from "@/assets/goldmafia-logo.png";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -121,89 +122,18 @@ const Index = () => {
         {/* Hero Section - Logo and Cards */}
         <main className="flex flex-1 items-center justify-center px-0">
           <div className="mx-auto flex w-full max-w-[380px] flex-col items-center gap-8 sm:gap-12 md:max-w-2xl">
-            {/* Cloud Logo with Gradient Glow */}
+            {/* Gold Mafia Logo with Gradient Glow */}
             <div className="relative flex items-center justify-center">
               {/* Animated outer glow effect */}
-              <div className="absolute inset-0 scale-[1.6] animate-glow-soft rounded-full bg-gradient-to-r from-purple-400/40 via-blue-400/40 to-cyan-400/45 blur-3xl mix-blend-screen" />
+              <div className="absolute inset-0 scale-[1.4] animate-glow-soft rounded-full bg-gradient-to-r from-amber-400/50 via-yellow-400/40 to-amber-500/50 blur-3xl mix-blend-screen" />
               
-              {/* Main cloud SVG - responsive sizing */}
-              <div className="relative drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]">
-                <svg viewBox="0 0 500 300" className="h-auto w-[200px] sm:w-[280px] md:w-[340px]">
-                  <defs>
-                    <linearGradient id="cloudGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" style={{ stopColor: '#C084FC', stopOpacity: 1 }} />
-                      <stop offset="25%" style={{ stopColor: '#A855F7', stopOpacity: 1 }} />
-                      <stop offset="60%" style={{ stopColor: '#3B82F6', stopOpacity: 1 }} />
-                      <stop offset="100%" style={{ stopColor: '#06B6D4', stopOpacity: 1 }} />
-                    </linearGradient>
-                    <radialGradient id="innerCloudGlow" cx="50%" cy="50%" r="55%">
-                      <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.55" />
-                      <stop offset="55%" stopColor="#1D4ED8" stopOpacity="0.08" />
-                      <stop offset="100%" stopColor="#0f172a" stopOpacity="0" />
-                    </radialGradient>
-                    <radialGradient id="circleGlow" cx="50%" cy="50%" r="60%">
-                      <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.5" />
-                      <stop offset="65%" stopColor="#0f172a" stopOpacity="0.85" />
-                      <stop offset="100%" stopColor="#020617" stopOpacity="1" />
-                    </radialGradient>
-                    
-                    <filter id="glow">
-                      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
-                      <feMerge>
-                        <feMergeNode in="coloredBlur"/>
-                        <feMergeNode in="SourceGraphic"/>
-                      </feMerge>
-                    </filter>
-                  </defs>
-                  
-                  {/* Inner ambient glow within the cloud stroke */}
-                  <path
-                    d="M 340 140 
-                       C 340 115, 320 95, 295 95
-                       C 290 75, 270 60, 245 60
-                       C 215 60, 190 80, 185 105
-                       C 160 105, 140 125, 140 150
-                       C 140 175, 160 195, 185 195
-                       L 325 195
-                       C 345 195, 360 180, 360 160
-                       C 360 148, 350 140, 340 140 Z"
-                    fill="url(#innerCloudGlow)"
-                    opacity="0.85"
-                  />
-                  
-                  {/* Cloud outline - thicker and bolder */}
-                  <path
-                    d="M 340 140 
-                       C 340 115, 320 95, 295 95
-                       C 290 75, 270 60, 245 60
-                       C 215 60, 190 80, 185 105
-                       C 160 105, 140 125, 140 150
-                       C 140 175, 160 195, 185 195
-                       L 325 195
-                       C 345 195, 360 180, 360 160
-                       C 360 148, 350 140, 340 140 Z"
-                    fill="none"
-                    stroke="url(#cloudGradient)"
-                    strokeWidth="24"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    filter="url(#glow)"
-                  />
-                  
-                  {/* Dark circle background for the letter - more prominent */}
-                  <circle cx="250" cy="140" r="58" fill="url(#circleGlow)" opacity="1" />
-                  
-                  {/* Upload arrow / Letter M shape */}
-                  <path
-                    d="M 235 165 L 235 125 L 220 140 M 235 125 L 250 140 M 250 165 L 250 125 L 265 140"
-                    fill="none"
-                    stroke="#06B6D4"
-                    strokeWidth="8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="drop-shadow-lg"
-                  />
-                </svg>
+              {/* Main Gold Mafia Logo - responsive sizing */}
+              <div className="relative drop-shadow-[0_20px_50px_rgba(217,119,6,0.6)]">
+                <img 
+                  src={goldMafiaLogo} 
+                  alt="Gold Mafia" 
+                  className="h-[180px] w-[180px] sm:h-[240px] sm:w-[240px] md:h-[280px] md:w-[280px] animate-float-gentle hover:scale-110 transition-transform duration-700 drop-shadow-[0_0_40px_rgba(251,191,36,0.6)]"
+                />
               </div>
             </div>
 

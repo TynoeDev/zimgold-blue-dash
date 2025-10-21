@@ -1,345 +1,548 @@
-import { useState } from "react";
-import { DealCard } from "@/components/DealCard";
+import { useState, useRef, useEffect } from "react";
 import { Sidebar } from "@/components/DashboardSidebar";
 import type { SidebarTab } from "@/components/DashboardSidebar";
 import { RightSidebar } from "@/components/RightSidebar";
 import { cn } from "@/lib/utils";
-import goldNugget from "@/assets/gold-nugget.png";
-import goldCoins from "@/assets/gold-coins.png";
-import goldMap from "@/assets/gold-map.png";
+import { Send, Paperclip, Image as ImageIcon, Smile, Users, Hash, Pin, Search, MoreVertical, ThumbsUp, Heart, Sparkles } from "lucide-react";
 import sandCharm from "@/assets/sand-charm.png";
 import goldMountain from "@/assets/gold-mountain.png";
+
+// TODO: Replace with real user data from Supabase after authentication setup
+type User = {
+  id: string;
+  display_name: string;
+  avatar_ipfs_hash?: string; // IPFS CID for avatar
+  membership_tier: string;
+  is_online: boolean;
+};
+
+// TODO: Replace with real message data from Supabase real-time subscription
+type Message = {
+  id: string;
+  user_id: string;
+  user: User;
+  message: string;
+  message_type: 'text' | 'image' | 'file';
+  attachments_ipfs: { filename: string; ipfs_hash: string; mime_type: string }[];
+  created_at: string;
+  reactions: { [emoji: string]: string[] }; // emoji -> array of user IDs
+  is_pinned: boolean;
+  reply_to?: string;
+};
 
 const Lounge = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState<SidebarTab>("discussion-forums");
+  const [message, setMessage] = useState("");
+  const [selectedChannel, setSelectedChannel] = useState("general");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Template data for Discussion Forums
-  const discussionForums = [
+  // Scroll to bottom when new messages arrive
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
+  // TODO: Replace with current authenticated user from Supabase Auth
+  const currentUser: User = {
+    id: "current-user-id",
+    display_name: "You",
+    membership_tier: "Associate",
+    is_online: true,
+  };
+
+  // TODO: Replace with real Supabase real-time subscription
+  // Example: supabase.channel('lounge_chat').on('postgres_changes', ...)
+  const mockMessages: Message[] = [
     {
-      id: "general-insights",
-      title: "General Business Insights",
-      description: "Industry trends, market news, and strategic discussions",
-      threads: 247,
-      activeUsers: 89,
-      lastActivity: "2m ago",
+      id: "1",
+      user_id: "user-1",
+      user: {
+        id: "user-1",
+        display_name: "Don Vincenzo",
+        membership_tier: "Don",
+        is_online: true,
+      },
+      message: "Welcome to the lounge, family. Let's discuss our next big move. 🎯",
+      message_type: "text",
+      attachments_ipfs: [],
+      created_at: new Date(Date.now() - 3600000).toISOString(),
+      reactions: { "👍": ["user-2", "user-3"], "🔥": ["user-2"] },
+      is_pinned: true,
     },
     {
-      id: "deal-rooms",
-      title: "Deal Rooms",
-      description: "Private and public spaces for partnership discussions and deal-making",
-      threads: 156,
-      activeUsers: 34,
-      lastActivity: "15m ago",
+      id: "2",
+      user_id: "user-2",
+      user: {
+        id: "user-2",
+        display_name: "Sophia Marcelli",
+        membership_tier: "Caporegime",
+        is_online: true,
+      },
+      message: "I've been analyzing the Solana ecosystem. The NFT market is heating up again.",
+      message_type: "text",
+      attachments_ipfs: [],
+      created_at: new Date(Date.now() - 1800000).toISOString(),
+      reactions: { "💡": ["user-1", "user-3"] },
+      is_pinned: false,
     },
     {
-      id: "topic-threads",
-      title: "Topic Threads",
-      description: "Niche discussions on market trends, investment strategies, and technology",
-      threads: 89,
-      activeUsers: 67,
-      lastActivity: "5m ago",
+      id: "3",
+      user_id: "user-3",
+      user: {
+        id: "user-3",
+        display_name: "Marco \"The Shark\" DeLuca",
+        membership_tier: "Soldier",
+        is_online: false,
+      },
+      message: "Just closed a deal worth 50K. Anyone interested in partnership opportunities?",
+      message_type: "text",
+      attachments_ipfs: [],
+      created_at: new Date(Date.now() - 900000).toISOString(),
+      reactions: { "🤝": ["user-1"], "💰": ["user-1", "user-2"] },
+      is_pinned: false,
     },
   ];
 
-  // Template data for Networking Spaces
-  const networkingSpaces = [
-    {
-      id: "introductions",
-      title: "Member Introductions",
-      description: "New members introduce themselves and connect with the community",
-      participants: 45,
-      nextEvent: "Live now",
-      status: "active",
-    },
-    {
-      id: "virtual-meetups",
-      title: "Virtual Meetups",
-      description: "Scheduled events, webinars, and roundtable discussions",
-      participants: 128,
-      nextEvent: "Tomorrow 3PM EST",
-      status: "scheduled",
-    },
-    {
-      id: "interest-groups",
-      title: "Interest Groups",
-      description: "Focused communities around specific industries and topics",
-      participants: 76,
-      nextEvent: "Friday 2PM EST",
-      status: "scheduled",
-    },
+  // TODO: Replace with real-time online members from Supabase
+  const onlineMembers: User[] = [
+    { id: "user-1", display_name: "Don Vincenzo", membership_tier: "Don", is_online: true },
+    { id: "user-2", display_name: "Sophia Marcelli", membership_tier: "Caporegime", is_online: true },
+    { id: "user-4", display_name: "Anthony Russo", membership_tier: "Underboss", is_online: true },
+    { id: "user-5", display_name: "Isabella Romano", membership_tier: "Soldier", is_online: true },
   ];
 
-  // Template data for Sentiment Analysis
-  const sentimentData = [
-    {
-      id: "market-mood",
-      title: "Market Mood Index",
-      sentiment: 0.72,
-      trend: "bullish",
-      change: "+5.2%",
-      description: "Overall community sentiment on market conditions",
-    },
-    {
-      id: "deal-activity",
-      title: "Deal Activity Pulse",
-      sentiment: 0.85,
-      trend: "very_active",
-      change: "+12.8%",
-      description: "Current deal-making activity and partnership interest",
-    },
-    {
-      id: "innovation-drive",
-      title: "Innovation Drive",
-      sentiment: 0.68,
-      trend: "optimistic",
-      change: "+3.1%",
-      description: "Community enthusiasm for new technologies and approaches",
-    },
+  const channels = [
+    { id: "general", name: "General Chat", icon: Hash, memberCount: 47 },
+    { id: "deals", name: "Deal Rooms", icon: Sparkles, memberCount: 23 },
+    { id: "tech", name: "Tech Talk", icon: Hash, memberCount: 31 },
+    { id: "market", name: "Market Insights", icon: Hash, memberCount: 56 },
   ];
 
   const tabMeta: Record<SidebarTab, { label: string; accentBullet: string; accentText: string }> = {
-    "discussion-forums": { label: "Discussion Forums", accentBullet: "bg-amber-400", accentText: "text-amber-300/70" },
-    "networking-spaces": { label: "Networking Spaces", accentBullet: "bg-cyan-300", accentText: "text-cyan-300/70" },
-    "sentiment-analysis": { label: "Sentiment Analysis", accentBullet: "bg-purple-400", accentText: "text-purple-300/70" },
+    "discussion-forums": { label: "Forum", accentBullet: "bg-amber-400", accentText: "text-amber-300/70" },
+    "networking-spaces": { label: "Networking", accentBullet: "bg-cyan-300", accentText: "text-cyan-300/70" },
+    "sentiment-analysis": { label: "Sentiment", accentBullet: "bg-purple-400", accentText: "text-purple-300/70" },
     "ai-assistant": { label: "AI Assistant", accentBullet: "bg-green-400", accentText: "text-green-300/70" },
-    "analytics-dashboards": { label: "Analytics Dashboards", accentBullet: "bg-blue-400", accentText: "text-blue-300/70" },
-    "portfolio-management": { label: "Portfolio Management", accentBullet: "bg-red-400", accentText: "text-red-300/70" },
+    "analytics-dashboards": { label: "Analytics", accentBullet: "bg-blue-400", accentText: "text-blue-300/70" },
+    "portfolio-management": { label: "Portfolio", accentBullet: "bg-red-400", accentText: "text-red-300/70" },
   };
 
   const activeMeta = tabMeta[activeTab];
 
-  const prospectingSignals = [
-    {
-      id: "aurora",
-      title: "Aurora Vein",
-      confidence: 0.92,
-      note: "Thermal drones picked a rich quartz streak beneath the east ridge.",
-    },
-    {
-      id: "blue-river",
-      title: "Blue River Shelf",
-      confidence: 0.74,
-      note: "Geophones recorded consistent resonance from shallow pockets.",
-    },
-    {
-      id: "kings-quarry",
-      title: "King's Quarry",
-      confidence: 0.58,
-      note: "Signal dampened overnight but remains above expedition threshold.",
-    },
-  ];
+  // Get tier badge color
+  const getTierColor = (tier: string) => {
+    const colors: Record<string, string> = {
+      Don: "bg-gradient-to-r from-purple-500 to-violet-600",
+      Underboss: "bg-gradient-to-r from-amber-500 to-orange-600",
+      Caporegime: "bg-gradient-to-r from-cyan-500 to-blue-600",
+      Soldier: "bg-gradient-to-r from-green-500 to-emerald-600",
+      Associate: "bg-gradient-to-r from-slate-500 to-slate-600",
+    };
+    return colors[tier] || colors.Associate;
+  };
 
-  const emailUpdates = [
-    { id: "auric", name: "Auric Partners", subject: "Due diligence packet ready for review", time: "2h ago" },
-    { id: "prospect", name: "Prospect Guild", subject: "Scouting reel + onboarding invite", time: "6h ago" },
-    { id: "relay", name: "Relay Finance", subject: "Funding window confirmed for lounge cohort", time: "Yesterday" },
-  ];
+  // Get avatar URL from IPFS or fallback to initials
+  const getAvatarUrl = (user: User) => {
+    if (user.avatar_ipfs_hash) {
+      // TODO: Replace with actual IPFS gateway after integration
+      return `https://gateway.pinata.cloud/ipfs/${user.avatar_ipfs_hash}`;
+    }
+    return null; // Will show initials instead
+  };
 
-  const notificationUpdates = [
-    { id: "ops", title: "Operations", detail: "Night shift reported record throughput across all sites", time: "12m" },
-    { id: "compliance", title: "Compliance", detail: "Environmental auditors cleared the Canyon basin expansion", time: "1h" },
-    { id: "security", title: "Security", detail: "Satellite anomaly resolved with no risk indicators", time: "3h" },
-  ];
+  // Get user initials for avatar
+  const getUserInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  // Handle sending message
+  const handleSendMessage = async () => {
+    if (!message.trim()) return;
+
+    // TODO: Implement Supabase insert
+    // await supabase.from('lounge_messages').insert({
+    //   user_id: currentUser.id,
+    //   message: message,
+    //   message_type: 'text',
+    //   attachments_ipfs: [],
+    // });
+
+    console.log("📨 Sending message:", message);
+    setMessage("");
+  };
+
+  // Handle file upload to IPFS
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // TODO: Implement IPFS upload via Pinata
+    // const formData = new FormData();
+    // formData.append('file', file);
+    // const response = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
+    //   method: 'POST',
+    //   headers: { 'Authorization': `Bearer ${PINATA_JWT}` },
+    //   body: formData
+    // });
+    // const { IpfsHash } = await response.json();
+    
+    // Then insert message with IPFS reference:
+    // await supabase.from('lounge_messages').insert({
+    //   user_id: currentUser.id,
+    //   message: `Shared ${file.name}`,
+    //   message_type: file.type.startsWith('image/') ? 'image' : 'file',
+    //   attachments_ipfs: [{ filename: file.name, ipfs_hash: IpfsHash, mime_type: file.type }],
+    // });
+
+    console.log("📎 Uploading file to IPFS:", file.name);
+  };
+
+  // Handle reaction to message
+  const handleReaction = async (messageId: string, emoji: string) => {
+    // TODO: Implement Supabase update for reactions
+    // const message = await supabase.from('lounge_messages').select('reactions').eq('id', messageId).single();
+    // const reactions = message.data.reactions || {};
+    // if (!reactions[emoji]) reactions[emoji] = [];
+    // if (reactions[emoji].includes(currentUser.id)) {
+    //   reactions[emoji] = reactions[emoji].filter(id => id !== currentUser.id);
+    // } else {
+    //   reactions[emoji].push(currentUser.id);
+    // }
+    // await supabase.from('lounge_messages').update({ reactions }).eq('id', messageId);
+
+    console.log("👍 Reacting to message:", messageId, emoji);
+  };
 
   const renderTabContent = () => {
     switch (activeTab) {
       case "discussion-forums":
+        // REAL-TIME CHAT INTERFACE
         return (
-          <div className="grid gap-6 pt-10 lg:grid-cols-[1.2fr_0.8fr]">
-            <div className="rounded-3xl border border-amber-400/25 bg-gradient-to-br from-amber-500/18 via-transparent to-[#120b03] p-6 text-white shadow-[0_28px_52px_rgba(0,0,0,0.38)]">
-              <div className="flex flex-col gap-4">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-amber-200/80">Community Hub</p>
-                <h3 className="text-[34px] font-bold tracking-[0.12em] text-white">Discussion Forums</h3>
-                <p className="max-w-xl text-sm leading-relaxed text-amber-50/75">
-                  Engage with fellow professionals in topic-based threads where ideas and deals are shared.
-                  From industry trends to partnership opportunities, find your conversation here.
-                </p>
+          <div className="flex h-[calc(100vh-200px)] gap-4">
+            {/* Channel List */}
+            <div className="w-64 rounded-2xl glass-card-amber glow-amber-soft shadow-lg">
+              <div className="p-4">
+                <div className="mb-4 flex items-center justify-between">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-amber-200/80">Channels</h3>
+                  <button className="rounded-lg p-1 hover:bg-white/10 transition-all duration-300">
+                    <Search className="h-4 w-4 text-white/60" />
+                  </button>
+                </div>
+                
+                <div className="space-y-1">
+                  {channels.map((channel) => {
+                    const Icon = channel.icon;
+                    return (
+                      <button
+                        key={channel.id}
+                        onClick={() => setSelectedChannel(channel.id)}
+                        className={cn(
+                          "flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left transition-all duration-300 hover:scale-105",
+                          selectedChannel === channel.id
+                            ? "glass-card-amber glow-amber-soft text-white"
+                            : "text-white/60 hover:bg-white/5 hover:text-white/80"
+                        )}
+                      >
+                      <Icon className="h-4 w-4" />
+                      <span className="flex-1 text-sm font-medium">{channel.name}</span>
+                      <span className="text-xs text-white/40">{channel.memberCount}</span>
+                    </button>
+                  );
+                })}
               </div>
 
-              <div className="mt-8 grid gap-4 sm:grid-cols-1">
-                {discussionForums.map((forum) => (
-                  <div
-                    key={forum.id}
-                    className="rounded-2xl border border-amber-200/15 bg-black/35 px-4 py-5 text-center shadow-[0_16px_32px_rgba(0,0,0,0.38)]"
-                  >
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-amber-100/60">
-                      {forum.title}
+              {/* TODO: Add voice channels section when implementing */}
+              <div className="mt-6">
+                <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-amber-200/60">Voice Rooms</h3>
+                <p className="text-xs text-white/40">Coming with Supabase Realtime</p>
+              </div>
+              </div>
+            </div>
+
+            {/* Chat Area */}
+            <div className="flex flex-1 flex-col rounded-2xl glass-card-amber shadow-lg">
+              {/* Chat Header */}
+              <div className="flex items-center justify-between border-b border-white/10 px-6 py-4 backdrop-blur-sm">
+                <div className="flex items-center gap-3">
+                  <Hash className="h-5 w-5 text-amber-400" />
+                  <div>
+                    <h2 className="text-sm font-semibold text-white">
+                      {channels.find(c => c.id === selectedChannel)?.name}
+                    </h2>
+                    <p className="text-xs text-white/50">
+                      {channels.find(c => c.id === selectedChannel)?.memberCount} members online
                     </p>
-                    <p className="mt-2 text-sm text-amber-200/80">{forum.description}</p>
-                    <div className="mt-3 flex items-center justify-center gap-4 text-[11px] text-white/60">
-                      <span>{forum.threads} threads</span>
-                      <span>{forum.activeUsers} active</span>
-                      <span>{forum.lastActivity}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-3 rounded-3xl border border-white/12 bg-white/[0.04] p-6 text-white/80">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-white/55">Active Discussions</p>
-              {[
-                { title: "Q4 Market Predictions", author: "MarketSage", replies: 23, time: "1h ago" },
-                { title: "AI Integration Strategies", author: "TechVision", replies: 45, time: "3h ago" },
-                { title: "Sustainable Investment Opportunities", author: "GreenFinance", replies: 12, time: "5h ago" },
-              ].map((thread) => (
-                <div key={thread.title} className="flex flex-col gap-2 rounded-2xl border border-white/6 bg-black/35 p-4">
-                  <div className="flex items-center justify-between">
-                    <p className="text-[12px] font-semibold uppercase tracking-[0.24em] text-white/85">{thread.title}</p>
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.26em] text-amber-200/80">{thread.replies} replies</span>
-                  </div>
-                  <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.26em] text-white/45">
-                    <span>by {thread.author}</span>
-                    <span>{thread.time}</span>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        );
-      case "networking-spaces":
-        return (
-          <div className="grid gap-6 pt-10 lg:grid-cols-[1.2fr_0.8fr]">
-            <div className="rounded-3xl border border-cyan-400/25 bg-[#06141d] p-6 text-white shadow-[0_24px_48px_rgba(0,0,0,0.38)]">
-              <div className="flex flex-col gap-4">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-cyan-200/75">Connection Center</p>
-                <h3 className="text-[34px] font-bold tracking-[0.12em] text-white">Networking Spaces</h3>
-                <p className="max-w-xl text-sm leading-relaxed text-cyan-100/75">
-                  Build valuable connections by joining virtual meetups and engaging in real-time discussions.
-                  Connect with like-minded professionals and expand your network.
-                </p>
+                <div className="flex items-center gap-2">
+                  <button className="rounded-lg p-2 hover:bg-white/10 transition-all duration-300 hover:scale-105">
+                    <Pin className="h-4 w-4 text-white/60" />
+                  </button>
+                  <button className="rounded-lg p-2 hover:bg-white/10 transition-all duration-300 hover:scale-105">
+                    <Search className="h-4 w-4 text-white/60" />
+                  </button>
+                  <button className="rounded-lg p-2 hover:bg-white/10 transition-all duration-300 hover:scale-105">
+                    <MoreVertical className="h-4 w-4 text-white/60" />
+                  </button>
+                </div>
               </div>
 
-              <div className="mt-8 space-y-4">
-                {networkingSpaces.map((space) => (
-                  <div
-                    key={space.id}
-                    className="flex flex-col gap-3 rounded-2xl border border-cyan-200/15 bg-black/35 p-4 shadow-[0_16px_32px_rgba(0,0,0,0.32)]"
-                  >
-                    <div className="flex items-center justify-between">
-                      <p className="text-lg font-semibold tracking-[0.16em] text-white">{space.title}</p>
-                      <span className={cn(
-                        "rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.28em]",
-                        space.status === "active" ? "border-emerald-300/30 text-emerald-100/70" : "border-cyan-300/30 text-cyan-100/70"
-                      )}>
-                        {space.status === "active" ? "Live" : "Scheduled"}
-                      </span>
-                    </div>
-                    <p className="text-sm text-cyan-200/80">{space.description}</p>
-                    <div className="grid gap-3 text-[11px] uppercase tracking-[0.24em] text-white/55 sm:grid-cols-2">
-                      <div>
-                        <p className="text-white/70">Participants</p>
-                        <p className="text-base font-semibold text-cyan-200">{space.participants}</p>
+              {/* Messages Area */}
+              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+                {mockMessages.map((msg) => {
+                  const avatarUrl = getAvatarUrl(msg.user);
+                  const initials = getUserInitials(msg.user.display_name);
+                  const tierColor = getTierColor(msg.user.membership_tier);
+
+                  return (
+                    <div key={msg.id} className="group relative flex gap-3">
+                      {/* Avatar */}
+                      <div className="relative flex-shrink-0">
+                        {avatarUrl ? (
+                          <img
+                            src={avatarUrl}
+                            alt={msg.user.display_name}
+                            className="h-10 w-10 rounded-full object-cover ring-2 ring-amber-500/50 animate-float-gentle"
+                          />
+                        ) : (
+                          <div className={cn("flex h-10 w-10 items-center justify-center rounded-full text-xs font-bold text-white ring-2 ring-amber-500/50 animate-float-gentle", tierColor)}>
+                            {initials}
+                          </div>
+                        )}
+                        {msg.user.is_online && (
+                          <div className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-black bg-green-500 animate-pulse"></div>
+                        )}
                       </div>
-                      <div>
-                        <p className="text-white/70">Next Event</p>
-                        <p className="text-base font-semibold text-white">{space.nextEvent}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
 
-            <div className="rounded-3xl border border-white/12 bg-white/[0.03] p-6 text-white/80 shadow-[0_24px_48px_rgba(0,0,0,0.35)]">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-white/55">Upcoming Events</p>
-              <div className="mt-5 space-y-4">
-                {[
-                  { title: "Weekly Business Roundtable", time: "Tomorrow 2PM EST", attendees: 28 },
-                  { title: "Tech Innovation Showcase", time: "Friday 4PM EST", attendees: 67 },
-                  { title: "Investment Strategy Session", time: "Next Monday 11AM EST", attendees: 45 },
-                ].map((event) => (
-                  <div key={event.title} className="flex flex-col gap-2 rounded-2xl border border-white/6 bg-black/35 p-4">
-                    <div className="flex items-center justify-between">
-                      <p className="text-[12px] font-semibold uppercase tracking-[0.24em] text-white/85">{event.title}</p>
-                      <span className="text-[10px] font-semibold uppercase tracking-[0.26em] text-cyan-200/80">{event.attendees} attending</span>
-                    </div>
-                    <p className="text-xs leading-relaxed text-white/60">{event.time}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-      case "sentiment-analysis":
-        return (
-          <div className="grid gap-6 pt-10 lg:grid-cols-[1.2fr_0.8fr]">
-            <div className="rounded-3xl border border-purple-400/25 bg-gradient-to-br from-purple-500/18 via-transparent to-[#0a0520] p-6 text-white shadow-[0_28px_52px_rgba(0,0,0,0.38)]">
-              <div className="flex flex-col gap-4">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-purple-200/80">Intelligence Center</p>
-                <h3 className="text-[34px] font-bold tracking-[0.12em] text-white">Sentiment Analysis</h3>
-                <p className="max-w-xl text-sm leading-relaxed text-purple-50/75">
-                  Stay ahead of the curve by understanding community mood and market sentiment.
-                  Real-time insights into trends, feedback, and sector performance.
-                </p>
-              </div>
-
-              <div className="mt-8 grid gap-4 sm:grid-cols-1">
-                {sentimentData.map((metric) => (
-                  <div
-                    key={metric.id}
-                    className="rounded-2xl border border-purple-200/15 bg-black/35 px-4 py-5 shadow-[0_16px_32px_rgba(0,0,0,0.38)]"
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <p className="text-[12px] font-semibold uppercase tracking-[0.24em] text-white/85">{metric.title}</p>
-                      <span className={cn(
-                        "text-xs font-semibold uppercase tracking-[0.28em]",
-                        metric.change.startsWith("+") ? "text-emerald-300" : "text-rose-300"
-                      )}>
-                        {metric.change}
-                      </span>
-                    </div>
-                    <p className="text-sm text-purple-200/80 mb-3">{metric.description}</p>
-                    <div className="flex items-center gap-3">
-                      <div className="flex-1 bg-white/10 rounded-full h-2">
-                        <div
-                          className={cn(
-                            "h-full rounded-full transition-all duration-1000",
-                            metric.sentiment > 0.7 ? "bg-emerald-400" : metric.sentiment > 0.5 ? "bg-amber-400" : "bg-rose-400"
+                      {/* Message Content */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-baseline gap-2">
+                          <span className="font-semibold text-white text-sm">{msg.user.display_name}</span>
+                          <span className={cn("rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white", tierColor)}>
+                            {msg.user.membership_tier}
+                          </span>
+                          <span className="text-xs text-white/40">
+                            {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </span>
+                          {msg.is_pinned && (
+                            <Pin className="h-3 w-3 text-amber-400" />
                           )}
-                          style={{ width: `${metric.sentiment * 100}%` }}
-                        />
+                        </div>
+
+                        <p className="mt-1 text-sm text-white/90 leading-relaxed">{msg.message}</p>
+
+                        {/* Attachments from IPFS */}
+                        {msg.attachments_ipfs.length > 0 && (
+                          <div className="mt-2 space-y-2">
+                            {msg.attachments_ipfs.map((attachment, idx) => (
+                              <div key={idx} className="flex items-center gap-2 rounded-lg border border-white/10 bg-black/30 p-3">
+                                {attachment.mime_type.startsWith('image/') ? (
+                                  <img
+                                    src={`https://gateway.pinata.cloud/ipfs/${attachment.ipfs_hash}`}
+                                    alt={attachment.filename}
+                                    className="max-w-sm rounded-lg"
+                                  />
+                                ) : (
+                                  <>
+                                    <Paperclip className="h-4 w-4 text-amber-400" />
+                                    <span className="text-sm text-white/80">{attachment.filename}</span>
+                                    <a
+                                      href={`https://gateway.pinata.cloud/ipfs/${attachment.ipfs_hash}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-auto text-xs text-amber-400 hover:text-amber-300"
+                                    >
+                                      Download
+                                    </a>
+                                  </>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Reactions */}
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {Object.entries(msg.reactions).map(([emoji, userIds]) => (
+                            <button
+                              key={emoji}
+                              onClick={() => handleReaction(msg.id, emoji)}
+                              className={cn(
+                                "flex items-center gap-1 rounded-full border px-2 py-1 text-xs transition-all duration-300 hover:scale-110",
+                                userIds.includes(currentUser.id)
+                                  ? "border-amber-400/50 glass-card-amber glow-amber-soft text-amber-200"
+                                  : "border-white/10 glass-card text-white/60 hover:border-white/30"
+                              )}
+                            >
+                              <span>{emoji}</span>
+                              <span>{userIds.length}</span>
+                            </button>
+                          ))}
+                          
+                          {/* Add reaction button */}
+                          <button
+                            onClick={() => handleReaction(msg.id, "👍")}
+                            className="flex items-center gap-1 rounded-full border border-white/10 bg-black/20 px-2 py-1 text-xs text-white/40 opacity-0 transition-opacity hover:border-white/30 hover:bg-black/40 hover:text-white/60 group-hover:opacity-100"
+                          >
+                            <Smile className="h-3 w-3" />
+                          </button>
+                        </div>
                       </div>
-                      <span className="text-xs font-semibold text-white/70">{Math.round(metric.sentiment * 100)}%</span>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
+                <div ref={messagesEndRef} />
+              </div>
+
+              {/* Message Input */}
+              <div className="border-t border-white/10 p-4 backdrop-blur-sm">
+                <div className="flex items-center gap-2 rounded-lg glass-card px-4 py-3">
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    className="rounded-lg p-1.5 text-white/60 transition-all duration-300 hover:bg-white/10 hover:text-white hover:scale-110"
+                    title="Upload file to IPFS"
+                  >
+                    <Paperclip className="h-5 w-5" />
+                  </button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    className="hidden"
+                    onChange={handleFileUpload}
+                    accept="image/*,.pdf,.doc,.docx"
+                  />
+                  
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    className="rounded-lg p-1.5 text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+                    title="Upload image to IPFS"
+                  >
+                    <ImageIcon className="h-5 w-5" />
+                  </button>
+
+                  <input
+                    type="text"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
+                    placeholder="Message the lounge..."
+                    className="flex-1 bg-transparent text-sm text-white placeholder-white/40 outline-none"
+                  />
+
+                  <button className="rounded-lg p-1.5 text-white/60 transition-colors hover:bg-white/10 hover:text-white">
+                    <Smile className="h-5 w-5" />
+                  </button>
+
+                  <button
+                    onClick={handleSendMessage}
+                    disabled={!message.trim()}
+                    className={cn(
+                      "rounded-lg p-1.5 transition-colors",
+                      message.trim()
+                        ? "bg-amber-500 text-white hover:bg-amber-600"
+                        : "text-white/40"
+                    )}
+                  >
+                    <Send className="h-5 w-5" />
+                  </button>
+                </div>
+                <p className="mt-2 text-xs text-white/40">
+                  💡 Files are stored on IPFS for permanent, decentralized access
+                </p>
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 rounded-3xl border border-white/12 bg-white/[0.04] p-6 text-white/80">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-white/55">Trend Analysis</p>
-              {[
-                { sector: "Technology", sentiment: "Bullish", change: "+8.2%", drivers: "AI breakthroughs, funding rounds" },
-                { sector: "Finance", sentiment: "Neutral", change: "+2.1%", drivers: "Stable markets, regulatory clarity" },
-                { sector: "Healthcare", sentiment: "Optimistic", change: "+5.7%", drivers: "Innovation pipeline, partnerships" },
-              ].map((trend) => (
-                <div key={trend.sector} className="flex flex-col gap-2 rounded-2xl border border-white/6 bg-black/35 p-4">
-                  <div className="flex items-center justify-between">
-                    <p className="text-[12px] font-semibold uppercase tracking-[0.24em] text-white/85">{trend.sector}</p>
-                    <span className={cn(
-                      "text-xs font-semibold uppercase tracking-[0.28em]",
-                      trend.sentiment === "Bullish" ? "text-emerald-300" : trend.sentiment === "Optimistic" ? "text-cyan-300" : "text-amber-300"
-                    )}>
-                      {trend.sentiment}
-                    </span>
-                  </div>
-                  <p className="text-xs leading-relaxed text-white/60 mb-1">{trend.drivers}</p>
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.26em] text-purple-200/80">{trend.change}</span>
-                </div>
-              ))}
+            {/* Online Members */}
+            <div className="w-56 rounded-2xl border border-amber-400/20 bg-gradient-to-br from-amber-500/10 via-transparent to-black/50 p-4">
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-amber-200/80">
+                  Online — {onlineMembers.length}
+                </h3>
+                <Users className="h-4 w-4 text-white/60" />
+              </div>
+
+              <div className="space-y-2">
+                {onlineMembers.map((member) => {
+                  const avatarUrl = getAvatarUrl(member);
+                  const initials = getUserInitials(member.display_name);
+                  const tierColor = getTierColor(member.membership_tier);
+
+                  return (
+                    <div key={member.id} className="flex items-center gap-2">
+                      <div className="relative">
+                        {avatarUrl ? (
+                          <img
+                            src={avatarUrl}
+                            alt={member.display_name}
+                            className="h-8 w-8 rounded-full object-cover ring-1 ring-white/20"
+                          />
+                        ) : (
+                          <div className={cn("flex h-8 w-8 items-center justify-center rounded-full text-[10px] font-bold text-white ring-1 ring-white/20", tierColor)}>
+                            {initials}
+                          </div>
+                        )}
+                        <div className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border border-black bg-green-500"></div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="truncate text-xs font-medium text-white">{member.display_name}</p>
+                        <p className="text-[10px] text-white/40">{member.membership_tier}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="mt-6 rounded-lg border border-amber-400/20 bg-amber-500/10 p-3">
+                <p className="text-xs font-semibold text-amber-200">🔐 Authenticated Only</p>
+                <p className="mt-1 text-[10px] text-white/60">
+                  Real-time chat will be available after Supabase integration
+                </p>
+              </div>
             </div>
           </div>
         );
+
+      case "networking-spaces":
+        // TODO: Implement voice rooms with Supabase Realtime
+        return (
+          <div className="flex items-center justify-center pt-20">
+            <div className="max-w-md text-center">
+              <div className="mb-4 flex justify-center">
+                <div className="rounded-full bg-cyan-500/20 p-4">
+                  <Users className="h-12 w-12 text-cyan-400" />
+                </div>
+              </div>
+              <h3 className="text-2xl font-bold text-white">Voice Rooms</h3>
+              <p className="mt-3 text-sm text-white/60">
+                Real-time voice chat and networking spaces will be available after Supabase Realtime integration.
+              </p>
+              <div className="mt-6 rounded-lg border border-cyan-400/20 bg-cyan-500/10 p-4">
+                <p className="text-xs font-semibold text-cyan-200">📋 Planned Features:</p>
+                <ul className="mt-2 space-y-1 text-left text-xs text-white/60">
+                  <li>• Live voice channels</li>
+                  <li>• Screen sharing</li>
+                  <li>• Scheduled meetups</li>
+                  <li>• Breakout rooms</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        );
+
       default:
         return (
           <div className="flex items-center justify-center pt-20">
             <div className="text-center">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-amber-200/80">Coming Soon</p>
-              <h3 className="mt-2 text-[24px] font-bold tracking-[0.12em] text-white">Feature Under Development</h3>
-              <p className="mt-4 text-sm text-white/60 max-w-md">
-                This section is currently being developed to provide enhanced functionality for our community.
+              <p className="text-xs font-semibold uppercase tracking-wider text-amber-200/80">Coming Soon</p>
+              <h3 className="mt-2 text-2xl font-bold text-white">Feature Under Development</h3>
+              <p className="mt-4 max-w-md text-sm text-white/60">
+                This section will be enhanced with Supabase integration for real-time functionality.
               </p>
             </div>
           </div>
