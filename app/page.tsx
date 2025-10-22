@@ -20,6 +20,15 @@ export default function LandingPage() {
     []
   )
 
+  const confettiPositions = useMemo(() => 
+    Array.from({ length: 50 }, () => ({
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      delay: Math.random() * 0.5
+    })),
+    []
+  )
+
   const handleMint = async () => {
     setIsConnecting(true)
     setCrackScreen(true)
@@ -47,14 +56,14 @@ export default function LandingPage() {
       {crackScreen && <div className="fixed inset-0 z-50 crack-overlay pointer-events-none" />}
       {showConfetti && (
         <div className="fixed inset-0 z-40 pointer-events-none">
-          {[...Array(50)].map((_, i) => (
+          {confettiPositions.map((pos, i) => (
             <div 
               key={i} 
               className="confetti-piece" 
               style={{ 
-                left: `${Math.random() * 100}%`, 
-                top: `${Math.random() * 100}%`, 
-                animationDelay: `${Math.random() * 0.5}s` 
+                left: `${pos.left}%`, 
+                top: `${pos.top}%`, 
+                animationDelay: `${pos.delay}s` 
               }} 
             />
           ))}
@@ -64,33 +73,29 @@ export default function LandingPage() {
       <div className="absolute inset-0 w-full h-full">
         <div className="relative w-full h-full bg-linear-to-b from-black via-amber-950/30 to-black">
           {/* Animated Hero Images */}
-          <div className="absolute inset-0 w-full h-full">
-            <div className="absolute inset-0 w-full h-full animate-fadeSlide" style={{ animationDelay: '0s' }}>
+          <div className="absolute inset-0 w-full h-full overflow-hidden">
+            <div className="absolute inset-0 w-full h-full animate-fadeSlide3 opacity-100" style={{ animationDelay: '0s' }}>
               <img 
                 src="/images/gold-mafia-hero-one.jpeg" 
                 alt="Gold Mafia Hero" 
                 className="w-full h-full object-cover opacity-70"
               />
             </div>
-            <div className="absolute inset-0 w-full h-full animate-fadeSlide" style={{ animationDelay: '8s' }}>
+            <div className="absolute inset-0 w-full h-full animate-fadeSlide3" style={{ animationDelay: '8s' }}>
               <img 
                 src="/images/goldmafia-hero-boss.jpg" 
                 alt="Gold Mafia Boss" 
                 className="w-full h-full object-cover opacity-70"
               />
             </div>
+            <div className="absolute inset-0 w-full h-full animate-fadeSlide3" style={{ animationDelay: '16s' }}>
+              <img 
+                src="/images/goldmafia-hero-jet.jpg" 
+                alt="Gold Mafia Private Jet" 
+                className="w-full h-full object-cover opacity-70"
+              />
+            </div>
           </div>
-          
-          {/* Video overlay (optional) */}
-          <video 
-            autoPlay 
-            muted 
-            loop 
-            playsInline 
-            className="absolute inset-0 w-full h-full object-cover opacity-0 pointer-events-none"
-          >
-            <source src="/videos/hero-landing.mp4" type="video/mp4" />
-          </video>
           
           <div className="absolute inset-0 bg-linear-to-b from-transparent via-amber-500/5 to-transparent god-rays" />
           <div className="absolute inset-0">

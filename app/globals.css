@@ -419,30 +419,70 @@ body {
   animation: shine 3s ease-in-out infinite;
 }
 
-/* Hero Image Fade Slide Animation */
+/* Hero Image Fade Slide Animation - 3 Images */
+@keyframes fadeSlide3 {
+  0% {
+    opacity: 0;
+    transform: scale(1.05);
+    z-index: 1;
+  }
+  2% {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 2;
+  }
+  31% {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 2;
+  }
+  33% {
+    opacity: 0;
+    transform: scale(1.05);
+    z-index: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.05);
+    z-index: 1;
+  }
+}
+
+.animate-fadeSlide3 {
+  animation: fadeSlide3 24s ease-in-out infinite;
+  opacity: 0;
+}
+
+/* Hero Image Fade Slide Animation - 2 Images (backup) */
 @keyframes fadeSlide {
   0% {
     opacity: 0;
-    transform: scale(1.1);
+    transform: scale(1.05);
+    z-index: 1;
   }
-  5% {
+  2% {
     opacity: 1;
     transform: scale(1);
+    z-index: 2;
   }
-  45% {
+  48% {
     opacity: 1;
     transform: scale(1);
+    z-index: 2;
   }
   50% {
     opacity: 0;
     transform: scale(1.05);
+    z-index: 1;
   }
   100% {
     opacity: 0;
-    transform: scale(1.1);
+    transform: scale(1.05);
+    z-index: 1;
   }
 }
 
 .animate-fadeSlide {
   animation: fadeSlide 16s ease-in-out infinite;
+  opacity: 0;
 }
