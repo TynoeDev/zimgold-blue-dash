@@ -5,9 +5,9 @@ import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.app',
+  title: 'Gold Mafia | Solana Meme Token Empire',
+  description: 'The most exclusive meme token on Solana. Join the Gold Mafia empire - where wealth meets loyalty.',
+  generator: 'Gold Mafia',
 }
 
 export default function RootLayout({
