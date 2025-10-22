@@ -1,24 +1,364 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gold Mafia - Virtual Gold Mining Platform</title>
-    <meta name="description" content="Join the premier virtual gold mining platform with secure investments and exceptional returns." />
-    <meta name="author" content="Gold Mafia" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$NANCAT - The Ultimate Meme Coin</title>
+    <meta name="description" content="$NANCAT - Join the revolution of the ultimate meme coin that's brewing success in the crypto world!">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Added floating particles background -->
+    <div class="particles-container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
 
-    <meta property="og:title" content="Gold Mafia - Virtual Gold Mining" />
-    <meta property="og:description" content="Next generation gold mining platform with verified authenticity and premium returns." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="images/nancat.jpg" alt="NANCAT Logo" class="nav-logo">
+                <span class="nav-title">$NANCAT</span>
+            </div>
+            <div class="nav-links">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#roadmap" class="nav-link">Roadmap</a>
+                <a href="#tokenomics" class="nav-link">Tokenomics</a>
+                <a href="#community" class="nav-link">Community</a>
+            </div>
+        </div>
+    </nav>
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
+    <!-- Hero Section -->
+    <br>
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-text">🔥 NOW LIVE ON DECENTRALIZED EXCHANGE!</span>
+                </div>
+                <h1 class="hero-title">
+                    The Ultimate
+                    <span class="hero-highlight">$NANCAT</span>
+                    Meme Revolution
+                </h1>
+                <p class="hero-description">
+                    It's meow time! $NANCAT is more than just a regular meme coin it's a community built on laughter, creativity, and the spirit of the banana cat meme. Let's make history on Solana!
+                </p>
+                
+                <!-- Contract Address -->
+                <div class="contract-section">
+                    <label class="contract-label">Smart Contract Address:</label>
+                    <div class="contract-container">
+                        <input type="text" id="contractAddress" value="coming soon.." readonly class="contract-input">
+                        <button onclick="copyContract()" class="copy-btn" id="copyBtn">
+                            <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Copy
+                        </button>
+                    </div>
+                </div>
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+                <!-- CTA Buttons -->
+                <div class="cta-buttons">
+                    <a href="https://t.me/nancat_community" target="_blank" class="btn btn-primary">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                        </svg>
+                        Join Telegram
+                    </a>
+                    <a href="https://twitter.com/Nancat_sol" target="_blank" class="btn btn-secondary">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                        Follow Twitter
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="coin-container">
+                    <img src="images/nancat.jpg" alt="NANCAT Coin" class="coin-image">
+                    <div class="coin-glow"></div>
+                    <!-- Added rotating rings around coin -->
+                    <div class="coin-ring ring-1"></div>
+                    <div class="coin-ring ring-2"></div>
+                    <div class="coin-ring ring-3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why $NANCAT?</h2>
+                <p class="section-subtitle">The perfect blend of meme culture and serious crypto potential</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+    <img src="images/roket.jpg" alt="Logo NANCAT" class="responsive-logo">
+</div>
+                    <h3 class="feature-title">Community Driven</h3>
+                    <p class="feature-description">Built by the community, for the community. Every decision is made together.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+    <img src="images/meme.jpg" alt="Logo NANCAT" class="responsive-logo">
+</div>
+                    <h3 class="feature-title">Deflationary</h3>
+                    <p class="feature-description">Smart tokenomics with automatic burns to increase scarcity over time.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+    <img src="images/info.jpg" alt="Logo NANCAT" class="responsive-logo">
+</div>
+                    <h3 class="feature-title">Diamond Hands</h3>
+                    <p class="feature-description">Rewards for long-term holders with exclusive benefits and airdrops.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Added new roadmap section -->
+    <section id="roadmap" class="roadmap">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Roadmap</h2>
+                <p class="section-subtitle">Our journey to the moon and beyond</p>
+            </div>
+            
+            <div class="roadmap-timeline">
+                <div class="roadmap-item completed">
+                    <div class="roadmap-marker"></div>
+                    <div class="roadmap-content">
+                        <h3 class="roadmap-title">Phase 1: Launch</h3>
+                        <p class="roadmap-description">We will create and launch the NANCAT token directly on the Pump.fun platform. This ensures a fair and transparent launch with built-in anti-rug pull features, establishing initial liquidity and distribution.</p>
+                        <span class="roadmap-status">✅ Completed</span>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item active">
+                    <div class="roadmap-marker"></div>
+                    <div class="roadmap-content">
+                        <h3 class="roadmap-title">Phase 2: Growth</h3>
+                        <p class="roadmap-description">With the successful migration from Pump.fun, NANCAT will be officially tradable on Raydium and easily accessible through major DEX aggregators like Jupiter. This is a crucial step to dramatically increase our token's visibility and accessibility.</p>
+                        <span class="roadmap-status">🔥 In Progress</span>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-marker"></div>
+                    <div class="roadmap-content">
+                        <h3 class="roadmap-title">Phase 3: Expansion</h3>
+                        <p class="roadmap-description">We'll launch some fun new activities for our holders. This could include exclusive giveaways or contests to reward our most loyal supporters.</p>
+                        <span class="roadmap-status">⏳ Coming Soon</span>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-marker"></div>
+                    <div class="roadmap-content">
+                        <h3 class="roadmap-title">Phase 4: The Future</h3>
+                        <p class="roadmap-description">We'll focus on strengthening our existing community and reaching new groups of people. Our goal is to make NANCAT a household name in the crypto world, known for its fun and friendly community.</p>
+                        <span class="roadmap-status">🌟 Future</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tokenomics Section -->
+    <section id="tokenomics" class="tokenomics">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Tokenomics</h2>
+                <p class="section-subtitle">Transparent and fair distribution</p>
+            </div>
+            
+            <div class="tokenomics-grid">
+                <div class="tokenomics-card">
+                    <div class="tokenomics-percentage">40%</div>
+                    <div class="tokenomics-label">Comunity</div>
+                </div>
+                
+                <div class="tokenomics-card">
+                    <div class="tokenomics-percentage">30%</div>
+                    <div class="tokenomics-label">Liquidity Pool</div>
+                </div>
+                
+                <div class="tokenomics-card">
+                    <div class="tokenomics-percentage">20%</div>
+                    <div class="tokenomics-label">Marketing</div>
+                </div>
+                
+                <div class="tokenomics-card">
+                    <div class="tokenomics-percentage">10%</div>
+                    <div class="tokenomics-label">Dev</div>
+                </div>
+            </div>
+
+            <!-- Added token info section -->
+            <div class="token-info">
+                <div class="token-info-grid">
+                    <div class="token-info-item">
+                        <h4 class="token-info-title">Total Supply</h4>
+                        <p class="token-info-value">1B $NANCAT</p>
+                    </div>
+                    <div class="token-info-item">
+                        <h4 class="token-info-title">Burned Tokens</h4>
+                        <p class="token-info-value">50,000 $NANCAT</p>
+                    </div>
+                    <div class="token-info-item">
+                        <h4 class="token-info-title">Holders</h4>
+                        <p class="token-info-value">100k+</p>
+                    </div>
+                    <div class="token-info-item">
+                        <h4 class="token-info-title">Market Cap</h4>
+                        <p class="token-info-value">$100K</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="community" class="community">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Join Our Community</h2>
+                <p class="section-subtitle">Be part of the $NANCAT revolution</p>
+            </div>
+            
+            <div class="community-stats">
+                <div class="stat-card">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-label">Holders</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">1K+</div>
+                    <div class="stat-label">Telegram Members</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">50K+</div>
+                    <div class="stat-label">Twitter Followers</div>
+                </div>
+            </div>
+            
+            <div class="community-cta">
+                <h3 class="community-cta-title">Ready to brew some profits?</h3>
+                <p class="community-cta-text">Join thousands of $NANCAT holders and be part of the next big meme coin success story!</p>
+                <div class="cta-buttons">
+                    <a href="https://t.me/nancat_community" target="_blank" class="btn btn-primary">Join Now</a>
+                    <a href="https://twitter.com/Nancat_sol" target="_blank" class="btn btn-secondary">Follow Updates</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Added new FAQ section -->
+    <section class="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">Everything you need to know about $NANCAT</p>
+            </div>
+            
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h4>What is $NANCAT?</h4>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>$NANCAT is a meme coin born from the viral "banana cat" meme. With a unique and fun pixel art style, this coin is built on the Solana network to ensure fast and cheap transactions.</p>
+<p>​More than just a token, $NANCAT is a community movement. It's designed for those who want to have fun, create memes, and build a strong, loyal community around our shared love for the banana cat. Join us and let's make the world a little funnier, one pixel at a time!</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h4>How can I buy $NANCAT?</h4>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can easily purchase $NANCAT through a decentralized exchange (DEX) on the Solana network. To get started, make sure you have a digital wallet like Phantom Wallet set up with a balance of SOL to cover transaction fees. Next, connect your wallet to a DEX such as Raydium or Jupiter. From there, you can use the official $NANCAT contract address to swap your SOL for $NANCAT. Always double-check the contract address to ensure you are using the correct one and to avoid scams.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h4>Is $NANCAT safe?</h4>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Unlike other meme coins, $NANCAT is a secure meme asset! We ensure its safety and transparency through our launch on Pump.fun, a platform that automatically locks liquidity. This makes a rug pull impossible.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h4>What are the benefits of holding $NANCAT?</h4>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Holding $NANCAT means you’re not just making an investment, you’re joining the Nancat Army, a global community full of laughter and creativity. The benefit is being part of an exciting journey where you'll have opportunities to participate in contests, exclusive token giveaways, and other unique community events. As our community grows, we will work together to increase the token’s visibility and unlock new possibilities for the future.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="images/nancat.jpg" alt="NANCAT Logo" class="footer-logo">
+                    <span class="footer-title">$NANCAT</span>
+                </div>
+                
+                <div class="footer-links">
+                    <a href="https://t.me/nancat_community" target="_blank" class="footer-link">Telegram</a>
+                    <a href="https://twitter.com/nancatcoin" target="_blank" class="footer-link">Twitter</a>
+                    <a href="#about" class="footer-link">About</a>
+                    <a href="#tokenomics" class="footer-link">Tokenomics</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-text">© 2025 $NANCAT. All rights reserved.</p>
+                <p class="footer-credit">Developed by <a href="https://twitter.com/vuzinet" target="_blank" class="footer-dev">@vuzinet</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20,6 9,17 4,12"></polyline>
+        </svg>
+        <span class="toast-text">Contract address copied to clipboard!</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
